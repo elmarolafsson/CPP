@@ -87,7 +87,7 @@ if __name__ == "__main__":
    dataBytes += 4 + 8 + 16 + 8             # Header size
    wave[4:8] = dataBytes.to_bytes(4, 'little')
 
-   # write out to file
-   #fptr = open("example.wav", "w+b")
-   #fptr.write(wave)
-   #fptr.close()
+   #write out to file
+   fptr = open("example.wav", "w+b")
+   fptr.write(wave)
+   fptr.close()
