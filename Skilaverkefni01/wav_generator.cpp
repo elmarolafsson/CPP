@@ -3,20 +3,6 @@
 #include <math.h>
 using namespace std;
 
-// void write_int(int integer, ofstream* wavfs){
-//     char data[4];
-//     for (int i = 0; i < 4; i++)
-//         data[i] = (integer & (0xff << (i*8))) >> (i*8);
-//     wavfs->write(data,4);
-// }
-
-// void write_short(short s, ofstream* wavfs){
-//     char data[2];
-//     for (int i = 0; i < 2; i++)
-//         data[i] = (s & (0xff << (i*8))) >> (i*8);
-//     wavfs->write(data,2);
-// }
-
 int makeWaveHeader(int sampleRate, int noChannels, int bitsSample, char name[]){
     float duration = 0.5;
     int noSamples = duration * sampleRate;
@@ -100,21 +86,21 @@ int main(int argc, char* filename[]){
     int noChannels = 1;       // Mono
 
     int noSamples = duration * sampleRate;   // Total number of samples for file
-    cout << filename[1] << endl;
     int size = 0;
     char file[32];
-    for(int i = 0; i > -1; i++){
-        if (filename[1][i] != '\0'){
-            file[size] = filename[1][i];
-            size++;
-        }  
-        else break;
+    int i = 0;
+    while(filename[1][i] != '\0'){
+        file[size] = filename[1][i];
+        size++;
+        i++;
     }
+
+    int o = 1;
+    cout << file << endl;
     file[size++] = '.';
     file[size++] = 'w';
     file[size++] = 'a';
     file[size++] = 'v';
-    cout <<"size of arg " << size << endl;
     cout << file << endl;
     int wave = makeWaveHeader(sampleRate, noChannels, 16, file);
 }
