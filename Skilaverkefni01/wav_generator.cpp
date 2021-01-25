@@ -17,7 +17,7 @@ using namespace std;
 //     wavfs->write(data,2);
 // }
 
-int makeWaveHeader(int sampleRate, int noChannels, int bitsSample){
+int makeWaveHeader(int sampleRate, int noChannels, int bitsSample, char name[]){
     float duration = 0.5;
     int noSamples = duration * sampleRate;
     int byteRate = sampleRate * noChannels * bitsSample/8;
@@ -25,7 +25,7 @@ int makeWaveHeader(int sampleRate, int noChannels, int bitsSample){
     int subChunk2Size = noSamples*noChannels*bitsSample/8;
     int int_field = 0;
     ofstream wavfs;
-    wavfs.open("poop.wav", ios::binary);
+    wavfs.open(name, ios::binary);
     wavfs.write("RIFF",4);
     wavfs.write("\0\0\0\0",4);
     wavfs.write("WAVE", 4);
@@ -93,13 +93,28 @@ int makeWaveHeader(int sampleRate, int noChannels, int bitsSample){
     return 0;
 }
 
-int main(){
+int main(int argc, char* filename[]){
     int sampleRate = 44100;   // Sample rate in Hz. (CD quality)
     int freq = 440;           // A above middle C
     float duration = 0.5;     // Length of tone - seconds
     int noChannels = 1;       // Mono
 
     int noSamples = duration * sampleRate;   // Total number of samples for file
-    
-    int wave = makeWaveHeader(sampleRate, noChannels, 16);
+    cout << filename[1] << endl;
+    int size = 0;
+    char file[32];
+    for(int i = 0; i > -1; i++){
+        if (filename[1][i] != '\0'){
+            file[size] = filename[1][i];
+            size++;
+        }  
+        else break;
+    }
+    file[size++] = '.';
+    file[size++] = 'w';
+    file[size++] = 'a';
+    file[size++] = 'v';
+    cout <<"size of arg " << size << endl;
+    cout << file << endl;
+    int wave = makeWaveHeader(sampleRate, noChannels, 16, file);
 }
