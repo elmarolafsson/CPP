@@ -12,8 +12,9 @@ int main(){
     Word B;;
     char filename[120] = "words.txt";
     char* word = B.get_word(filename);
-    cout << word << endl;
-    B.randomize(word, strlen(word));
-    cout << word << endl;
+    B.set_word(word);
+    B.scramble(word, strlen(word));
+    cout << B.unscrambled << endl;
+    cout << B.scrambled << endl;
     return 0;
 }

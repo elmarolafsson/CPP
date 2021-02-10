@@ -31,11 +31,20 @@ void Word::swap(char *a, char *b){
     *a = *b;
     *b = temp;
 }
-void Word::randomize(char arr[], int n){
+void Word::scramble(char arr[], int n){
     srand(time(NULL));
     int i;
     for (i = n-1; i>0; i--){
         int j = rand() % (i+1);
         swap(&arr[i], &arr[j]);
     }
+    for (int i = n; i>=0; i--){
+        scrambled[i] = arr[i];
+    }
 }
+void Word::set_word(char word[]){
+    for (int i = strlen(word); i>=0; i--){
+        unscrambled[i] = word[i];
+    }
+}
+

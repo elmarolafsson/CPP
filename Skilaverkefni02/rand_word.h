@@ -12,6 +12,10 @@ class Word{
         char *get_word(char filename[]);
 
         void swap(char *a, char *b);
-        void randomize(char arr[], int n);
+        void scramble(char arr[], int n);
+        void set_word(char word[]);
+        
 
+        char unscrambled[25];
+        char scrambled[25];
 };
