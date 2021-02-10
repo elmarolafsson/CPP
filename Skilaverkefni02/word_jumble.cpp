@@ -8,7 +8,7 @@
 using namespace std;
 
 int main(){
-    srand (time(NULL));
+    
     Word B;
     char filename[120] = "words.txt";
     char* word = B.get_word(filename);
