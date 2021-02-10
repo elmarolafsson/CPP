@@ -2,9 +2,14 @@
 #include <fstream>
 #include <stdlib.h>
 #include <time.h>
+#include <rand_word.h>
 using namespace std;
-
+char getword(Word F){
+    
+}
 int main(){
+    Word B;
+    B.get_word("words.txt");
     ifstream word;
     char line[120];
     int counter = 0;
