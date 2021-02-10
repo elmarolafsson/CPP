@@ -2,3 +2,5 @@ elmar
 arnar
 ugla
 hlynur
+solveig
+olafur
