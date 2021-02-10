@@ -8,13 +8,19 @@
 using namespace std;
 
 int main(){
-    
-    Word B;
-    char filename[64] = "words.txt";
-    char* word = B.get_word(filename);
-    B.set_word(word, strlen(word));
-    B.scramble(word, strlen(word));
-    cout << B.unscrambled << endl;
-    cout << B.scrambled << endl;
+    srand(time(NULL));
+    int counter = 0;
+    while (counter < 5){
+        Word *B;
+        B = new Word;
+        char filename[64] = "words.txt";
+        B->get_word(filename);
+        B->scramble(B->unscrambled, strlen(B->unscrambled));
+        cout << B->unscrambled << endl;
+        cout << B->scrambled << endl;
+        delete B;
+        counter ++;
+        
+    }
     return 0;
 }
