@@ -42,8 +42,8 @@ void Word::scramble(char arr[], int n){
         scrambled[i] = arr[i];
     }
 }
-void Word::set_word(char word[]){
-    for (int i = strlen(word); i>=0; i--){
+void Word::set_word(char word[], int n){
+    for (int i = n; i>=0; i--){
         unscrambled[i] = word[i];
     }
 }
