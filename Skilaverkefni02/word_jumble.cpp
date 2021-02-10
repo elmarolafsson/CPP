@@ -12,6 +12,7 @@ int main(){
     Word B;
     char filename[120] = "words.txt";
     char* word = B.get_word(filename);
+    
     B.randomize(word, strlen(word));
     cout << word << endl;
     return 0;
