@@ -1,15 +1,14 @@
 #include <iostream>
 #include <fstream>
+#include <stdlib.h>
 #include <math.h>
 using namespace std;
 
-int makeWaveHeader(int sampleRate, int noChannels, int bitsSample, char name[]){
-    float duration = 0.5;
+int makeWaveHeader(int sampleRate, int noChannels, int bitsSample, char name[], int pmc, float duration, int freq){
     int noSamples = duration * sampleRate;
     int byteRate = sampleRate * noChannels * bitsSample/8;
     int blockAlign = noChannels * bitsSample/8;
     int subChunk2Size = noSamples*noChannels*bitsSample/8;
-    int int_field = 0;
     ofstream wavfs;
     wavfs.open(name, ios::binary);
     wavfs.write("RIFF",4);
@@ -28,7 +27,7 @@ int makeWaveHeader(int sampleRate, int noChannels, int bitsSample, char name[]){
     wavfs.write(AudioFormat,2);
     char NumChannels[2];
     for (int i = 0; i < 2; i++){
-        NumChannels[i] = (1 & (0xff << (i*8))) >> (i*8);
+        NumChannels[i] = (pmc & (0xff << (i*8))) >> (i*8);
     }
     wavfs.write(NumChannels,2);
     char sample_rate[4];
@@ -60,7 +59,7 @@ int makeWaveHeader(int sampleRate, int noChannels, int bitsSample, char name[]){
 
 
     for(int i=0; i<noSamples; i++){
-        short sample = cos(440 * i * 3.142/sampleRate) * 32767;
+        short sample = cos(freq * i * 3.142/sampleRate) * 32767;
         char shortSample[2];
         for (int i = 0; i < 2; i++){
             shortSample[i] = (sample & (0xff << (i*8))) >> (i*8);
@@ -79,28 +78,40 @@ int makeWaveHeader(int sampleRate, int noChannels, int bitsSample, char name[]){
     return 0;
 }
 
-int main(int argc, char* filename[]){
+int main(int argc, char* args[]){
+    int PMC = 1;
     int sampleRate = 44100;   // Sample rate in Hz. (CD quality)
-    int freq = 440;           // A above middle C
-    float duration = 0.5;     // Length of tone - seconds
     int noChannels = 1;       // Mono
-
-    int noSamples = duration * sampleRate;   // Total number of samples for file
-    int size = 0;
+    int freq;
+    float duration;
     char file[32];
+    int size = 0;
     int i = 0;
-    while(filename[1][i] != '\0'){
-        file[size] = filename[1][i];
-        size++;
-        i++;
+    if (argc < 4){
+        cout << "Insert Filename: ";
+        cin >> file;
+        while(file[i] != '\0'){
+            size++;
+            i++;
+        }
+        cout << "Insert Duration: ";
+        cin >> duration;
+        cout << "Insert Frequency: ";
+        cin >> freq;
     }
-
-    int o = 1;
-    cout << file << endl;
+    else{
+        freq = atoi(args[3]);           // A above middle C
+        duration = atof(args[2]);     // Length of tone - seconds
+        while(args[1][i] != '\0'){
+            file[size] = args[1][i];
+            size++;
+            i++;
+        }
+    }
+    int noSamples = duration * sampleRate;   // Total number of samples for file
     file[size++] = '.';
     file[size++] = 'w';
     file[size++] = 'a';
     file[size++] = 'v';
-    cout << file << endl;
-    int wave = makeWaveHeader(sampleRate, noChannels, 16, file);
+    int wave = makeWaveHeader(sampleRate, noChannels, 16, file, PMC, duration, freq);
 }
