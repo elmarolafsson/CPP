@@ -9,8 +9,8 @@ using namespace std;
 
 int main(){
     
-    Word B;;
-    char filename[120] = "words.txt";
+    Word B;
+    char filename[64] = "words.txt";
     char* word = B.get_word(filename);
     B.set_word(word, strlen(word));
     B.scramble(word, strlen(word));

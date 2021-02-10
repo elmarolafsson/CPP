@@ -16,6 +16,6 @@ class Word{
         void set_word(char word[], int n);
         
 
-        char unscrambled[25];
-        char scrambled[25];
+        char unscrambled[64];
+        char scrambled[64];
 };
