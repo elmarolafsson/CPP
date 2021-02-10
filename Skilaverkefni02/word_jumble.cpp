@@ -9,12 +9,11 @@ using namespace std;
 
 int main(){
     
-    Word B;
+    Word B;;
     char filename[120] = "words.txt";
-    char *word = B.get_word(filename);
+    char* word = B.get_word(filename);
     cout << word << endl;
     B.randomize(word, strlen(word));
     cout << word << endl;
-    
     return 0;
 }

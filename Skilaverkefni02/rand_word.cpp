@@ -8,9 +8,7 @@ Word::Word(){
         
 char *Word::get_word(char filename[]){
     ifstream words;
-    char *line;
-	line = (char*) malloc(10*sizeof(char));
-
+    char* line[120];
     int counter = 0;
     srand (time(NULL));
     words.open(filename);
@@ -18,14 +16,15 @@ char *Word::get_word(char filename[]){
             counter++;
     }
     words.close();
+    *line = new char[120];
     words.open(filename);
-    line = (char*) realloc(line,20);
     int v1 = rand() % counter + 1;
     for (int i=0; i<v1; i++){
-        words.getline(line, 120);
+        words.getline(*line, 120);
     }
-    free(line);
-    return line;
+
+
+    return *line;
 }
 void Word::swap(char *a, char *b){
     char temp = *a;

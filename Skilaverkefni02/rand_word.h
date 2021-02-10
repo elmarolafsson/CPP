@@ -9,8 +9,9 @@ class Word{
 
     public:
         Word();
-        char* get_word(char filename[]);
+        char *get_word(char filename[]);
 
         void swap(char *a, char *b);
         void randomize(char arr[], int n);
+
 };
