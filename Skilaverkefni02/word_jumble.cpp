@@ -10,12 +10,11 @@ using namespace std;
 int main(){
     
     Word B;
-    char filename[25] = "words.txt";
-    char* word = B.get_word(filename);
-    for (int i=0;i<strlen(word);i++){
-        B.unscrambled[i] = word[i];
-    }
+    char filename[120] = "words.txt";
+    char *word = B.get_word(filename);
+    cout << word << endl;
     B.randomize(word, strlen(word));
-    cout << B.unscrambled << "->" << word << endl;
+    cout << word << endl;
+    
     return 0;
 }
