@@ -13,4 +13,6 @@ class Word{
 
         void swap(char *a, char *b);
         void randomize(char arr[], int n);
+        char unscrambled[25];
+        char scrambled[25];
 };

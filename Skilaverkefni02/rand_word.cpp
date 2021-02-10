@@ -2,13 +2,13 @@
 #include "rand_word.h"
 
 Word::Word(){
-    cout << "wadu hek" << endl;
+    
 }
 
         
 char* Word::get_word(char filename[]){
     ifstream words;
-    char* line[120];
+    char* line[25];
     int counter = 0;
     srand (time(NULL));
     words.open(filename);
@@ -19,12 +19,12 @@ char* Word::get_word(char filename[]){
     words.open(filename);
     int v1 = rand() % counter + 1;
     for (int i=0; i<v1; i++){
-        words.getline(*line, 120);
+        words.getline(*line, 25);
     }
     return *line;
 }
 void Word::swap(char *a, char *b){
-    int temp = *a;
+    char temp = *a;
     *a = *b;
     *b = temp;
 }
