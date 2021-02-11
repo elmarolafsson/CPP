@@ -15,7 +15,6 @@ int main(){
     int counter = 0;
     bool play = true;
     while (play){
-        
         Word *B;
         B = new Word;
         char filename[64] = "words.txt";
