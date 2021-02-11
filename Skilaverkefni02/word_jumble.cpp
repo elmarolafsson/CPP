@@ -15,32 +15,32 @@ int main(){
     int counter = 0;
     bool play = true;
     while (play){
-        Word *B;
-        B = new Word;
+        Word *word;
+        word = new Word;
         char filename[64] = "words.txt";
-        B->get_word(filename);
-        B->scramble(B->unscrambled, strlen(B->unscrambled));
+        word->get_word(filename);
+        word->scramble(word->unscrambled, strlen(word->unscrambled));
         bool fail = true;
         while (fail){
             system("clear");
             cout << "For a hint input: ?" << endl;
             cout << "Points: " << score << endl;
-            cout << "Word to guess: " << B->scrambled << endl;
-            cout << B->dashed << endl;
+            cout << "Word to guess: " << word->scrambled << endl;
+            cout << word->dashed << endl;
             char userWord[64];
             cout << "Input your guess: ";
             cin >> userWord;
             if (userWord[0] == '?'){
-                 B->compare(B->unscrambled, B->dashed);
-                if (B->guess == true){
+                 word->compare(word->unscrambled, word->dashed);
+                if (word->guess == true){
                     fail = false;
                 }
-                B->use_hint();
+                word->use_hint();
                 score--;
             }
             else{
-                B->compare(B->unscrambled, userWord);
-                if (B->guess == true){
+                word->compare(word->unscrambled, userWord);
+                if (word->guess == true){
                     cout << "YOU DID IT!" << endl;
                     fail = false;
                     words++;
@@ -65,7 +65,7 @@ int main(){
                 break;
             }
         }
-        delete B;
+        delete word;
         counter ++;
     }
     cout << "Your total guessed words are: " << words << " And your score is: "<< score << endl; 

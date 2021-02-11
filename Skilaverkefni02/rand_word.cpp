@@ -72,7 +72,6 @@ void Word::compare(char word1[], char word2[]){
 }
 
 void Word::use_hint(){
-    //
     int index = rand() % strlen(unscrambled);
     if (guess == false){
         if (dashed[index] != unscrambled[index]){
