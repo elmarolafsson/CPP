@@ -1,10 +1,8 @@
-
 #include "rand_word.h"
 
 Word::Word(){
-    
+    guess = true;
 }
-
         
 void Word::get_word(char filename[]){
     ifstream words;
@@ -39,13 +37,27 @@ void Word::scramble(char arr[], int n){
         int j = rand() % (i+1);
         swap(&scrambled[i], &scrambled[j]);
     }
-
-    //delete arr;
 }
 
 void Word::set_word(char word[], int n){
     for (int i = n; i>=0; i--){
         unscrambled[i] = word[i];
+    }
+}
+
+void Word::compare(char word1[], char word2[]){
+    int i = 0;
+    while (guess){
+        if (word1[i] == word2[i]){
+            guess = true;
+            if (i > strlen(word1)){
+                break;
+            }
+        }
+        else{
+            guess = false;
+        }
+        i++;
     }
 }
 

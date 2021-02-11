@@ -15,8 +15,9 @@ class Word{
         void swap(char *a, char *b);
         void scramble(char arr[], int n);
         void set_word(char word[], int n);
-        
+        void compare(char word1[], char word2[]);
 
+        bool guess;
         char unscrambled[64];
         char scrambled[64];
 };
