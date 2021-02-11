@@ -29,10 +29,13 @@ void Word::swap(char *a, char *b){
     *b = temp;
 }
 void Word::scramble(char arr[], int n){
-    
     for (int i = n; i>=0; i--){
         scrambled[i] = arr[i];
+        dashed[i] = '-';
     }
+    dashed[n] = '\0';
+    int index = rand() % n;
+    dashed[index] = unscrambled[index];
     for (int i = n-1; i>=0; i--){
         int j = rand() % (i+1);
         swap(&scrambled[i], &scrambled[j]);
@@ -68,3 +71,15 @@ void Word::compare(char word1[], char word2[]){
     guess = tempBool;
 }
 
+void Word::use_hint(){
+    //
+    int index = rand() % strlen(unscrambled);
+    if (guess == false){
+        if (dashed[index] != unscrambled[index]){
+            dashed[index] = unscrambled[index];
+        }
+        else{
+            use_hint();
+        }
+    }
+}
