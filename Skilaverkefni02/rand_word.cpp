@@ -1,7 +1,7 @@
 #include "rand_word.h"
 
 Word::Word(){
-    guess = true;
+    guess = false;
 }
         
 void Word::get_word(char filename[]){
@@ -47,17 +47,24 @@ void Word::set_word(char word[], int n){
 
 void Word::compare(char word1[], char word2[]){
     int i = 0;
-    while (guess){
-        if (word1[i] == word2[i]){
-            guess = true;
-            if (i > strlen(word1)){
+    bool tempBool = true;
+    if (strlen(word1) == strlen(word2)){
+        while (tempBool){
+            if (word1[i] == word2[i]){
+                if (i == strlen(word1)){
+                    break;
+                }
+            }
+            else{
+                tempBool = false;
                 break;
             }
+            i++;
         }
-        else{
-            guess = false;
-        }
-        i++;
     }
+    else{
+        tempBool = false;
+    }
+    guess = tempBool;
 }
 

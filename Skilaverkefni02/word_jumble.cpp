@@ -16,13 +16,23 @@ int main(){
         char filename[64] = "words.txt";
         B->get_word(filename);
         B->scramble(B->unscrambled, strlen(B->unscrambled));
-        cout << B->scrambled << endl;
-        char userWord[64];
-        cout << "Input your guess" << endl;
-        cin >> userWord;
-        B->compare(B->unscrambled, userWord);
-        if (B->guess = true){
-            cout << "YOU DID IT!" << endl;
+        bool fail = true;
+        while (fail){
+            cout << B->scrambled << endl;
+            char userWord[64];
+            cout << "Input your guess" << endl;
+            cin >> userWord;
+            B->compare(B->unscrambled, userWord);
+            cout << B->guess << endl;
+            if (B->guess == true){
+                cout << "YOU DID IT!" << endl;
+                fail = false;
+            }
+            else{
+                cout << "try again" << endl;
+            }
+            
+            
         }
         delete B;
         counter ++;
