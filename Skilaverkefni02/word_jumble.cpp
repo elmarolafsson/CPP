@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <stdlib.h>
+#include <cstdlib>
 #include <time.h>
 #include "rand_word.h"
 #include <string.h>
@@ -10,7 +11,9 @@ using namespace std;
 int main(){
     srand(time(NULL));
     int counter = 0;
-    while (counter < 5){
+    bool play = true;
+    while (play){
+        
         Word *B;
         B = new Word;
         char filename[64] = "words.txt";
@@ -18,12 +21,12 @@ int main(){
         B->scramble(B->unscrambled, strlen(B->unscrambled));
         bool fail = true;
         while (fail){
-            cout << B->scrambled << endl;
+            system("CLS");
+            cout << "Word to guess: " << B->scrambled << endl;
             char userWord[64];
-            cout << "Input your guess" << endl;
+            cout << "Input your guess: ";
             cin >> userWord;
             B->compare(B->unscrambled, userWord);
-            cout << B->guess << endl;
             if (B->guess == true){
                 cout << "YOU DID IT!" << endl;
                 fail = false;
@@ -31,8 +34,13 @@ int main(){
             else{
                 cout << "try again" << endl;
             }
-            
-            
+            char ans;
+            cout << "Continue? y/n ";
+            cin >> ans;
+            if (ans == 'n'){
+                play = false;
+                break;
+            }
         }
         delete B;
         counter ++;
