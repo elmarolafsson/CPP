@@ -1,32 +1,35 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include "characters.h"
+#include "tree.h"
 using namespace std;
 
-class tree
+
+class Tree
 {
 private:
     /* data */
     vector<string> _lines;
-    characters _chars[26];
+    struct characters *_chars;
 public:
-    tree(vector<string> lines, characters chars[]);
+    Tree(vector<string> lines, struct characters *chars);
     void printLines();
-    ~tree();
+    ~Tree();
 };
 
-tree::tree(vector<string> lines, characters chars[])
+
+Tree::Tree(vector<string> lines, struct characters *chars)
 {
     _lines = lines;
     _chars = chars;
+
 }
 
-tree::~tree()
+Tree::~Tree()
 {
 }
 
-void tree::printLines(){
+void Tree::printLines(){
     for (int i = 0; i < _lines.size(); i++){
         cout << _lines.at(i) << endl;
     }
