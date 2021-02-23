@@ -24,6 +24,7 @@ int main(){
     int num_chars = getUniqueChars(some_string);
     myfile.close();
 
+    // Get count of each character into a struct
     myfile.open("test.txt");
     while (myfile >> c){
         const int id = c - 'a';
@@ -31,6 +32,8 @@ int main(){
         chars[id].c = c;
     }
     myfile.close();
+
+
     for (int i = 0; i < num_chars; i++){
         cout << chars[i].c << ": " << chars[i].count << "  " << endl;
     }
