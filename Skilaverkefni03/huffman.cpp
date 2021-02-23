@@ -3,7 +3,8 @@
 #include <string>
 #include <map>
 #include <vector>
-#include "tree.cpp"
+#include "chars.h"
+#include "tree.h"
 
 using namespace std;
 
@@ -14,7 +15,7 @@ int main(){
     char c;
     string some_string;
     ifstream myfile;
-    struct characters chars[26];
+    struct characters chars[26] = {0};
     vector<string> lines;
 
     // Get number of unique characters
@@ -49,8 +50,14 @@ int main(){
             cout << chars[i].c << ": " << chars[i].count << "  " << endl;
         }
     }
-    Tree myTree = Tree(lines, chars);
-    myTree.printLines();
+    
+    Node *tree_node = new Node(chars[0].count, chars[0].c, NULL, NULL, new Node(chars[1].count, chars[1].c, NULL, NULL, NULL));
+
+    //Node *tree_node = new Node(1, 's', NULL, NULL);
+    cout << "tree node: " << tree_node << endl;
+
+    //Tree myTree = Tree(lines, chars);
+    //myTree.printLines();
     return 0;
 }
 
