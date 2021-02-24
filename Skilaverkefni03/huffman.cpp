@@ -53,13 +53,10 @@ int main(int argc, char *argv[]){
         }
 
         myfile.close();
-        for (int i = 0; i < lines.size(); i++){
-            cout << lines.at(i) << endl;
-        }   
+
         // Get number of unique characters
 
         num_chars = getUniqueChars(lines);
-        cout << "num: " << num_chars << endl;
 
         // Get count of each character into a struct
         for (int i = 0; i < lines.size(); i++){
@@ -82,11 +79,6 @@ int main(int argc, char *argv[]){
             }
         }
 
-        for (int i = 0; i < num_chars; i++){
-            if (newchars[i].count > 0){
-                cout << newchars[i].c << ": " << newchars[i].count << "  " << endl;
-            }
-        }
         node = new Node(new DataClass(newchars[0].count,newchars[0].c));
         node_queue.push_back(node);
         curr_root = newchars[0].count;
@@ -139,10 +131,6 @@ int main(int argc, char *argv[]){
                     codes[newchars[i].c] = parents.at(j)->children.at(1)->value;
                 }
             }
-        }
-
-        for (const auto& x : codes) {
-            cout << x.first << " : " << x.second << endl;
         }
 
         writeToEncoder(codes, lines, argv[3]);
@@ -226,7 +214,7 @@ void writeToEncoder(map<char, string> codes, vector<string> lines, string filena
 void writeToDecoder(map<string, string> codes, vector<string> lines, string filename){
     ofstream file;
     file.open (filename);
-    for (int i = 0; i<lines.size(); i++){
+    for (int i = 1; i<lines.size(); i++){
         string curr;
         for (char const &c: lines.at(i)){
             curr+=c;
