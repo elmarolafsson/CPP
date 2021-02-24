@@ -21,6 +21,9 @@ void sort(characters ch[]);
 
 void write(map<char, string> codes, vector<string> lines, string filename);
 
+string getNextWord(string command);
+string getFirstWord(string command);
+
 // string reverseStr(string str); 
 
 int main(int argc, char *argv[]){
@@ -34,13 +37,15 @@ int main(int argc, char *argv[]){
     Node *node = NULL;
     deque<Node *> node_queue;
     vector<Node *> parents;
-    map<char, string> codes;
+    
+    string line;
 
     string arg = argv[1];
     if (arg == "-e"){
+        map<char, string> codes;
         myfile.open(argv[2]);
         int num_chars;
-        string line;
+        
         
         while (getline(myfile, line)){ 
             lines.push_back(line);
@@ -142,8 +147,30 @@ int main(int argc, char *argv[]){
         write(codes, lines, argv[3]);
     }
     else if (arg == "-d"){
-        cout << "decode" << endl;
+        map<string, string> codes;
+        bool done = 0;
+        myfile.open(argv[2]);
+        while (getline(myfile, line)){
+            if (getFirstWord(line) == "\\"){
+                done = 1;
+            }
+            else if (done == 0){
+                codes[getFirstWord(line)] = getNextWord(line);
+            }
+            else{
+                lines.push_back(line);
+            }
+        }
+
+        for (const auto& x : codes) {
+            cout << x.first << " " << x.second << endl;
+        }
+        for(int i = 0; i < lines.size(); i++){
+            cout << lines.at(i) << endl;
+        }
     }
+                
+
     return 0;
 }
 
@@ -197,4 +224,12 @@ void write(map<char, string> codes, vector<string> lines, string filename){
         file << "\n";
     }
     file.close();
+}
+
+string getNextWord(string command) {
+    return command.substr(command.find(" ") + 1);
+}
+
+string getFirstWord(string command) {
+    return command.substr(0, command.find(" "));
 }
