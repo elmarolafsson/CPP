@@ -24,9 +24,10 @@ Node::~Node(){
 ostream& operator<<(ostream& out, const Node *node){
     if (node != NULL){
         out << node->left;
+        out << node->right;
         out << node->count;
         out << node->c;
-        out << node->right;
+        
     }
     return out;
 }

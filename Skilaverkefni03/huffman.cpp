@@ -4,21 +4,25 @@
 #include <map>
 #include <vector>
 #include <array>
-#include "chars.h"
+//#include "chars.h"
 #include "tree.h"
 
 using namespace std;
 
+struct characters{
+    int count;
+    char c;
+};
 
 int getUniqueChars(vector<string> s);
 
-characters sort(characters ch[]);
+void sort(characters ch[]);
 
 int main(){
     char c;
     string some_string;
     ifstream myfile;
-    struct characters chars[26] = {0};
+    characters chars[26] = {0};
     vector<string> lines;
 
     // Get number of unique characters
@@ -48,7 +52,7 @@ int main(){
         }
     }
 
-    chars = sort(chars);
+    sort(chars);
 
     for (int i = 0; i < 26; i++){
         if (chars[i].count > 0){
@@ -57,9 +61,9 @@ int main(){
     }
     
 
-    Node *tree_node = new Node(chars[0].count, chars[0].c, NULL, NULL);
+    Node *z = new Node(chars[0].count + chars[1].count, 'z', (new Node(chars[0].count, chars[0].c, NULL, NULL)), (new Node(chars[1].count, chars[1].c, NULL, NULL)));
 
-    cout << "tree node: " << tree_node << endl;
+    cout << "z: " << z << endl;
 
     //Tree myTree = Tree(lines, chars);
     //myTree.printLines();
@@ -76,20 +80,20 @@ int getUniqueChars(vector<string> s){
     return m.size();
 }
 
-characters sort(characters ch[]){
+void sort(characters ch[]){
     characters temp;
     for (int i = 0; i < 26; i++){
-        for (int j = i+1; j<26; j++){
-            cout << ch[j].c << ":" << ch[i].c << endl;
-            // if (ch[j].count < ch[i].count){
-            //     temp.c = ch[i].c;
-            //     temp.count = ch[i].count;
-            //     ch[i].c = ch[j].c;
-            //     ch[i].count = ch[j].count;
-            //     ch[j].c = temp.c;
-            //     ch[j].count = temp.count;
-            // }
+       for (int j = i+1; j<26; j++){
+            if (ch[j].count != 0){
+                if (ch[j].count < ch[i].count){
+                    temp.c = ch[i].c;
+                    temp.count = ch[i].count;
+                    ch[i].c = ch[j].c;
+                    ch[i].count = ch[j].count;
+                    ch[j].c = temp.c;
+                    ch[j].count = temp.count;
+                }
+            }
         }
     }
-    return ch;
 }
