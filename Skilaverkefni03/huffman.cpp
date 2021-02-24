@@ -18,7 +18,7 @@ int getUniqueChars(vector<string> s);
 
 void sort(characters ch[]);
 
-string reverseStr(string str); 
+// string reverseStr(string str); 
 
 int main(){
     char c;
@@ -31,6 +31,7 @@ int main(){
     Node *node = NULL;
     deque<Node *> node_queue;
     vector<Node *> parents;
+    map<char, string> codes;
 
     // Get number of unique characters
     myfile.open("test.txt");
@@ -109,16 +110,30 @@ int main(){
     for (int i = 0; i < parents.size()-1; i++){
         
         if(parents.at(i)->children.at(0)->data->count > parents.at(i)->children.at(1)->data->count){
-            parents.at(i)->children.at(1)->value.append('0'+parents.at(i)->value);
-            parents.at(i)->children.at(0)->value.append('1'+parents.at(i)->value);
+            parents.at(i)->children.at(1)->value.append("0"+parents.at(i)->value);
+            parents.at(i)->children.at(0)->value.append("1"+parents.at(i)->value);
         }
         else{
-            parents.at(i)->children.at(1)->value.append('1'+parents.at(i)->value);
-            parents.at(i)->children.at(0)->value.append('0'+parents.at(i)->value);
+            parents.at(i)->children.at(1)->value.append("1"+parents.at(i)->value);
+            parents.at(i)->children.at(0)->value.append("0"+parents.at(i)->value);
         }
-        cout << parents.at(i) << " is parent of " << parents.at(i)->children.at(0) << " with value: " << reverseStr(parents.at(i)->children.at(0)->value) << " and " << parents.at(i)->children.at(1) << " with value " << reverseStr(parents.at(i)->children.at(1)->value)  << endl;
+        //cout << parents.at(i) << " is parent of " << parents.at(i)->children.at(0) << " with value: " << reverseStr(parents.at(i)->children.at(0)->value) << " and " << parents.at(i)->children.at(1) << " with value " << reverseStr(parents.at(i)->children.at(1)->value)  << endl;
     }    
-
+    for (int i = 0; i < num_chars; i++){
+        for (int j = 0; j < parents.size()-1; j++){
+            if (newchars[i].c == parents.at(j)->children.at(0)->data->c){
+                reverse(parents.at(j)->children.at(0)->value.begin(),parents.at(j)->children.at(0)->value.end());
+                codes[newchars[i].c] = parents.at(j)->children.at(0)->value;
+            }
+            else if (newchars[i].c == parents.at(j)->children.at(1)->data->c){
+                reverse(parents.at(j)->children.at(1)->value.begin(),parents.at(j)->children.at(1)->value.end());
+                codes[newchars[i].c] = parents.at(j)->children.at(1)->value;
+            }
+        }
+    }
+    for (const auto& x : codes) {
+        cout << x.first << " : " << x.second << endl;
+    }
     // tree = node;
 
     // cout << "tree: " << endl;
@@ -144,13 +159,14 @@ int getUniqueChars(vector<string> s){
     return m.size();
 }
 
-string reverseStr(string str) 
-{ 
-    int n = str.length();
-    for (int i = 0; i < n / 2; i++) 
-        swap(str[i], str[n - i - 1]); 
-    return str;
-} 
+
+// string reverseStr(string str) 
+// { 
+//     int n = str.length();
+//     for (int i = 0; i < n / 2; i++) 
+//         swap(str[i], str[n - i - 1]); 
+//     return str;
+// } 
   
 
 void sort(characters ch[]){
