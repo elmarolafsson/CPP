@@ -22,7 +22,7 @@ public:
     Node *root;
     Node *parent;
     vector<Node *> children;
-    int value;
+    string value;
 
 private:
     

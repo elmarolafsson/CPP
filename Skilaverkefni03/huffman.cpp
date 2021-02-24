@@ -18,6 +18,8 @@ int getUniqueChars(vector<string> s);
 
 void sort(characters ch[]);
 
+string reverseStr(string str); 
+
 int main(){
     char c;
     string some_string;
@@ -69,7 +71,7 @@ int main(){
 
     
 
-    for (int i = 0; i < 26; i++){
+    for (int i = 0; i < num_chars; i++){
         if (newchars[i].count > 0){
             cout << newchars[i].c << ": " << newchars[i].count << "  " << endl;
         }
@@ -90,7 +92,6 @@ int main(){
         Node *myNode = new Node();
         
         if (node_queue.back()->data->c == '-'){
-            cout << "im stuck" << endl;
             myNode = node_queue.back();
             for (int i = 0; i < 2; i++){
                 node_queue.pop_back();
@@ -105,17 +106,18 @@ int main(){
 
     }
 
-    for (int i = 0; i < parents.size(); i++){
+    for (int i = 0; i < parents.size()-1; i++){
         
         if(parents.at(i)->children.at(0)->data->count > parents.at(i)->children.at(1)->data->count){
-            parents.at(i)->children.at(0)->value = 1;
+            parents.at(i)->children.at(1)->value.append('0'+parents.at(i)->value);
+            parents.at(i)->children.at(0)->value.append('1'+parents.at(i)->value);
         }
         else{
-            parents.at(i)->children.at(1)->value = 1;
- 
+            parents.at(i)->children.at(1)->value.append('1'+parents.at(i)->value);
+            parents.at(i)->children.at(0)->value.append('0'+parents.at(i)->value);
         }
-        cout << parents.at(i) << " is parent of " << parents.at(i)->children.at(0) << " with value: " << parents.at(i)->children.at(0)->value << " and " << parents.at(i)->children.at(1) << " with value " << parents.at(i)->children.at(1)->value  << endl;
-    }
+        cout << parents.at(i) << " is parent of " << parents.at(i)->children.at(0) << " with value: " << reverseStr(parents.at(i)->children.at(0)->value) << " and " << parents.at(i)->children.at(1) << " with value " << reverseStr(parents.at(i)->children.at(1)->value)  << endl;
+    }    
 
     // tree = node;
 
@@ -141,6 +143,15 @@ int getUniqueChars(vector<string> s){
     }
     return m.size();
 }
+
+string reverseStr(string str) 
+{ 
+    int n = str.length();
+    for (int i = 0; i < n / 2; i++) 
+        swap(str[i], str[n - i - 1]); 
+    return str;
+} 
+  
 
 void sort(characters ch[]){
     characters temp;
