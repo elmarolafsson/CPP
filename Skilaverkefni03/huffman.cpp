@@ -3,6 +3,7 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <array>
 #include "chars.h"
 #include "tree.h"
 
@@ -10,6 +11,8 @@ using namespace std;
 
 
 int getUniqueChars(vector<string> s);
+
+characters sort(characters ch[]);
 
 int main(){
     char c;
@@ -45,15 +48,17 @@ int main(){
         }
     }
 
+    chars = sort(chars);
+
     for (int i = 0; i < 26; i++){
         if (chars[i].count > 0){
             cout << chars[i].c << ": " << chars[i].count << "  " << endl;
         }
     }
     
+
     Node *tree_node = new Node(chars[0].count, chars[0].c, NULL, NULL);
 
-    //Node *tree_node = new Node(1, 's', NULL, NULL);
     cout << "tree node: " << tree_node << endl;
 
     //Tree myTree = Tree(lines, chars);
@@ -69,4 +74,22 @@ int getUniqueChars(vector<string> s){
         }
     }
     return m.size();
+}
+
+characters sort(characters ch[]){
+    characters temp;
+    for (int i = 0; i < 26; i++){
+        for (int j = i+1; j<26; j++){
+            cout << ch[j].c << ":" << ch[i].c << endl;
+            // if (ch[j].count < ch[i].count){
+            //     temp.c = ch[i].c;
+            //     temp.count = ch[i].count;
+            //     ch[i].c = ch[j].c;
+            //     ch[i].count = ch[j].count;
+            //     ch[j].c = temp.c;
+            //     ch[j].count = temp.count;
+            // }
+        }
+    }
+    return ch;
 }

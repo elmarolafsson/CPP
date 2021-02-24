@@ -1,5 +1,5 @@
-#ifndef TREE_H
-#define TREE_H
+#ifndef CHARS_H
+#define CHARS_H
 
 struct characters{
     int count;

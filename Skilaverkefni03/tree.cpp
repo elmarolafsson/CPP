@@ -13,7 +13,7 @@ Node::Node(int count, char c ,Node *left, Node *right){
 }
 
 Node::~Node(){
-    if (left != NULL){
+    if (left != NULL){ 
         delete left;
     }
     if (right != NULL){
