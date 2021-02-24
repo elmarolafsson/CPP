@@ -6,4 +6,4 @@ clear:
 	clear
 
 run:
-	./huffman.exe test.txt encoded.txt
+	./huffman.exe -d test.txt encoded.txt

@@ -36,107 +36,114 @@ int main(int argc, char *argv[]){
     vector<Node *> parents;
     map<char, string> codes;
 
-    // Get number of unique characters
-    myfile.open(argv[1]);
-    int num_chars;
-    string line;
-    
-    while (getline(myfile, line)){ 
-        lines.push_back(line);
-    }
-
-    myfile.close();
-    for (int i = 0; i < lines.size(); i++){
-        cout << lines.at(i) << endl;
-    }
-    num_chars = getUniqueChars(lines);
-    cout << "num: " << num_chars << endl;
-
-    // Get count of each character into a struct
-    for (int i = 0; i < lines.size(); i++){
-        string curr = lines.at(i);
-        for (int j = 0; j < curr.length(); j++){
-            const int id = curr[j] - 'a';
-            ++chars[id].count;
-            chars[id].c = curr[j];
-        }
-    }
-
-    sort(chars);
-    characters newchars[num_chars];
-    int newcharsCount = 0;
-    for (int i = 0; i < 26; i++){
-        if (chars[i].count > 0){
-            newchars[newcharsCount].c = chars[i].c;
-            newchars[newcharsCount].count = chars[i].count;
-            newcharsCount++;
-        }
-    }
-
-    for (int i = 0; i < num_chars; i++){
-        if (newchars[i].count > 0){
-            cout << newchars[i].c << ": " << newchars[i].count << "  " << endl;
-        }
-    }
-    node = new Node(new DataClass(newchars[0].count,newchars[0].c));
-    node_queue.push_back(node);
-    curr_root = newchars[0].count;
-
-    for (int i = 1; i < num_chars; i++){
-        node = new Node(new DataClass(newchars[i].count,newchars[i].c));
-        node_queue.push_back(node);
-        curr_root = curr_root + newchars[i].count;
-        node = new Node(new DataClass(curr_root,'-'));
-        node_queue.push_back(node);
-    }
-    while(!node_queue.empty()){
-        Node *myNode = new Node();
+    string arg = argv[1];
+    if (arg == "-e"){
+        myfile.open(argv[2]);
+        int num_chars;
+        string line;
         
-        if (node_queue.back()->data->c == '-'){
-            myNode = node_queue.back();
-            for (int i = 0; i < 2; i++){
+        while (getline(myfile, line)){ 
+            lines.push_back(line);
+        }
+
+        myfile.close();
+        for (int i = 0; i < lines.size(); i++){
+            cout << lines.at(i) << endl;
+        }   
+        // Get number of unique characters
+
+        num_chars = getUniqueChars(lines);
+        cout << "num: " << num_chars << endl;
+
+        // Get count of each character into a struct
+        for (int i = 0; i < lines.size(); i++){
+            string curr = lines.at(i);
+            for (int j = 0; j < curr.length(); j++){
+                const int id = curr[j] - 'a';
+                ++chars[id].count;
+                chars[id].c = curr[j];
+            }
+        }
+
+        sort(chars);
+        characters newchars[num_chars];
+        int newcharsCount = 0;
+        for (int i = 0; i < 26; i++){
+            if (chars[i].count > 0){
+                newchars[newcharsCount].c = chars[i].c;
+                newchars[newcharsCount].count = chars[i].count;
+                newcharsCount++;
+            }
+        }
+
+        for (int i = 0; i < num_chars; i++){
+            if (newchars[i].count > 0){
+                cout << newchars[i].c << ": " << newchars[i].count << "  " << endl;
+            }
+        }
+        node = new Node(new DataClass(newchars[0].count,newchars[0].c));
+        node_queue.push_back(node);
+        curr_root = newchars[0].count;
+
+        for (int i = 1; i < num_chars; i++){
+            node = new Node(new DataClass(newchars[i].count,newchars[i].c));
+            node_queue.push_back(node);
+            curr_root = curr_root + newchars[i].count;
+            node = new Node(new DataClass(curr_root,'-'));
+            node_queue.push_back(node);
+        }
+        while(!node_queue.empty()){
+            Node *myNode = new Node();
+            
+            if (node_queue.back()->data->c == '-'){
+                myNode = node_queue.back();
+                for (int i = 0; i < 2; i++){
+                    node_queue.pop_back();
+                    myNode->children.push_back(node_queue.back());
+                }
+            }
+            
+            else{
                 node_queue.pop_back();
-                myNode->children.push_back(node_queue.back());
+            }
+            parents.push_back(myNode);
+
+        }
+
+        for (int i = 0; i < parents.size()-1; i++){
+            
+            if(parents.at(i)->children.at(0)->data->count > parents.at(i)->children.at(1)->data->count){
+                parents.at(i)->children.at(1)->value.append("0"+parents.at(i)->value);
+                parents.at(i)->children.at(0)->value.append("1"+parents.at(i)->value);
+            }
+            else{
+                parents.at(i)->children.at(1)->value.append("1"+parents.at(i)->value);
+                parents.at(i)->children.at(0)->value.append("0"+parents.at(i)->value);
+            }
+        }    
+
+        for (int i = 0; i < num_chars; i++){
+            for (int j = 0; j < parents.size()-1; j++){
+                if (newchars[i].c == parents.at(j)->children.at(0)->data->c){
+                    reverse(parents.at(j)->children.at(0)->value.begin(),parents.at(j)->children.at(0)->value.end());
+                    codes[newchars[i].c] = parents.at(j)->children.at(0)->value;
+                }
+                else if (newchars[i].c == parents.at(j)->children.at(1)->data->c){
+                    reverse(parents.at(j)->children.at(1)->value.begin(),parents.at(j)->children.at(1)->value.end());
+                    codes[newchars[i].c] = parents.at(j)->children.at(1)->value;
+                }
             }
         }
-        
-        else{
-            node_queue.pop_back();
-        }
-        parents.push_back(myNode);
 
+        for (const auto& x : codes) {
+            cout << x.first << " : " << x.second << endl;
+        }
+
+        write(codes, lines, argv[3]);
     }
-
-    for (int i = 0; i < parents.size()-1; i++){
-        
-        if(parents.at(i)->children.at(0)->data->count > parents.at(i)->children.at(1)->data->count){
-            parents.at(i)->children.at(1)->value.append("0"+parents.at(i)->value);
-            parents.at(i)->children.at(0)->value.append("1"+parents.at(i)->value);
-        }
-        else{
-            parents.at(i)->children.at(1)->value.append("1"+parents.at(i)->value);
-            parents.at(i)->children.at(0)->value.append("0"+parents.at(i)->value);
-        }
-    }    
-
-    for (int i = 0; i < num_chars; i++){
-        for (int j = 0; j < parents.size()-1; j++){
-            if (newchars[i].c == parents.at(j)->children.at(0)->data->c){
-                reverse(parents.at(j)->children.at(0)->value.begin(),parents.at(j)->children.at(0)->value.end());
-                codes[newchars[i].c] = parents.at(j)->children.at(0)->value;
-            }
-            else if (newchars[i].c == parents.at(j)->children.at(1)->data->c){
-                reverse(parents.at(j)->children.at(1)->value.begin(),parents.at(j)->children.at(1)->value.end());
-                codes[newchars[i].c] = parents.at(j)->children.at(1)->value;
-            }
-        }
+    else if (arg == "-d"){
+        cout << "decode" << endl;
     }
-
-    for (const auto& x : codes) {
-        cout << x.first << " : " << x.second << endl;
-    }
-
-    write(codes, lines, argv[2]);
     return 0;
 }
 
