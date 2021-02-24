@@ -5,12 +5,11 @@
 #include "tree.h"
 using namespace std;
 
-Node::Node(int count, char c ,Node *left, Node *right, Node *parent){
+Node::Node(int count, char c ,Node *left, Node *right){
     this->count = count;
     this->c = c;
     this->left = left;
     this->right = right;
-    this->parent = parent;
 }
 
 Node::~Node(){
@@ -20,9 +19,6 @@ Node::~Node(){
     if (right != NULL){
         delete right;
     }
-    if (parent != NULL){
-        delete parent;
-    }
 }
 
 ostream& operator<<(ostream& out, const Node *node){
@@ -31,7 +27,6 @@ ostream& operator<<(ostream& out, const Node *node){
         out << node->count;
         out << node->c;
         out << node->right;
-        out << " " << node->parent;
     }
     return out;
 }

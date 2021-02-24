@@ -51,7 +51,7 @@ int main(){
         }
     }
     
-    Node *tree_node = new Node(chars[0].count, chars[0].c, NULL, NULL, new Node(chars[1].count, chars[1].c, NULL, NULL, NULL));
+    Node *tree_node = new Node(chars[0].count, chars[0].c, NULL, NULL);
 
     //Node *tree_node = new Node(1, 's', NULL, NULL);
     cout << "tree node: " << tree_node << endl;
