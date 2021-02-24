@@ -19,6 +19,7 @@ Node::Node(DataClass *data,Node *left, Node *right){
     this->data = data;
     this->left = left;
     this->right = right;
+    this->value = 0;
 }
 
 Node::~Node(){

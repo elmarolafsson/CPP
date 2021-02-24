@@ -106,15 +106,15 @@ int main(){
     }
 
     for (int i = 0; i < parents.size(); i++){
-        cout << parents.at(i) << " is parent of " << parents.at(i)->children.at(0) << " with value: " << parents.at(i)->children.at(0)->value << " and " << parents.at(i)->children.at(1) << " with value " << parents.at(i)->children.at(1)->value  << endl;
+        
         if(parents.at(i)->children.at(0)->data->count > parents.at(i)->children.at(1)->data->count){
             parents.at(i)->children.at(0)->value = 1;
-            parents.at(i)->children.at(1)->value = 0;
         }
         else{
             parents.at(i)->children.at(1)->value = 1;
-            parents.at(i)->children.at(0)->value = 0;
+ 
         }
+        cout << parents.at(i) << " is parent of " << parents.at(i)->children.at(0) << " with value: " << parents.at(i)->children.at(0)->value << " and " << parents.at(i)->children.at(1) << " with value " << parents.at(i)->children.at(1)->value  << endl;
     }
 
     // tree = node;
