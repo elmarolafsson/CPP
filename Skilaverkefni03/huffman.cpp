@@ -4,7 +4,7 @@
 #include <map>
 #include <vector>
 #include <deque>
-#include<bits/stdc++.h>
+#include <algorithm>
 //#include "chars.h"
 #include "tree.h"
 
@@ -19,11 +19,11 @@ int getUniqueChars(vector<string> s);
 
 void sort(characters ch[]);
 
-void write(map<char, string> codes, vector<string> lines);
+void write(map<char, string> codes, vector<string> lines, string filename);
 
 // string reverseStr(string str); 
 
-int main(){
+int main(int argc, char *argv[]){
     char c;
     string some_string;
     ifstream myfile;
@@ -37,7 +37,7 @@ int main(){
     map<char, string> codes;
 
     // Get number of unique characters
-    myfile.open("test.txt");
+    myfile.open(argv[1]);
     int num_chars;
     string line;
     
@@ -136,7 +136,7 @@ int main(){
         cout << x.first << " : " << x.second << endl;
     }
 
-    write(codes, lines);
+    write(codes, lines, argv[2]);
     return 0;
 }
 
@@ -169,15 +169,15 @@ void sort(characters ch[]){
     }
 }
 
-void write(map<char, string> codes, vector<string> lines){
+void write(map<char, string> codes, vector<string> lines, string filename){
     ofstream file;
-    file.open ("encoded.txt");
+    file.open (filename);
     for (const auto& x : codes) {
         file << x.first << " " << x.second << "\n";
     }
     file << "\\" << "\n";
     file << endl;
-    for (int j = 0; j<lines.size();j++){
+    for (int j = 0; j<lines.size();j++) {
         for (char const &c: lines.at(j)) {
             for (const auto& x : codes) {
                 if (c == x.first){
@@ -186,7 +186,7 @@ void write(map<char, string> codes, vector<string> lines){
                 
             }
             
-        }  
+        }
         file << "\n";
     }
     file.close();
