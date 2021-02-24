@@ -2,15 +2,24 @@
 
 using namespace std;
 
+class DataClass{
+    public:
+        DataClass(int count, char c);
+        friend ostream& operator <<(ostream& out, const DataClass *dc);
+
+        int count;
+        char c;
+};
+
 class Node{
 public:
-    Node(int count, char c, Node *left = NULL, Node *right = NULL);
+    Node(DataClass *data = NULL, Node *left = NULL, Node *right = NULL);
     virtual ~Node();
     friend ostream& operator <<(ostream& out, const Node *node);
-
-private:
-    int count;
-    char c;
+    DataClass *data;
     Node *left;
     Node *right;
+
+private:
+    
 };

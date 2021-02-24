@@ -4,10 +4,19 @@
 #include "chars.h"
 #include "tree.h"
 using namespace std;
-
-Node::Node(int count, char c ,Node *left, Node *right){
+DataClass::DataClass(int count, char c){
     this->count = count;
     this->c = c;
+}
+ostream& operator<<(ostream& out, const DataClass *dc){
+    if(dc != NULL){
+        out << "{ " << dc->count << " " << dc->c << " }"; 
+    }
+    return out;
+
+}
+Node::Node(DataClass *data,Node *left, Node *right){
+    this->data = data;
     this->left = left;
     this->right = right;
 }
@@ -19,14 +28,16 @@ Node::~Node(){
     if (right != NULL){
         delete right;
     }
+    if (data != NULL){
+        delete data;
+    }
 }
 
 ostream& operator<<(ostream& out, const Node *node){
     if (node != NULL){
         out << node->left;
+        out << node->data;
         out << node->right;
-        out << node->count;
-        out << node->c;
         
     }
     return out;

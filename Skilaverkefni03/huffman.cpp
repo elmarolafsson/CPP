@@ -3,7 +3,7 @@
 #include <string>
 #include <map>
 #include <vector>
-#include <array>
+#include <deque>
 //#include "chars.h"
 #include "tree.h"
 
@@ -24,6 +24,10 @@ int main(){
     ifstream myfile;
     characters chars[26] = {0};
     vector<string> lines;
+    int curr_root = 0;
+    Node *root = NULL;
+    Node *node = NULL;
+    deque<Node *> node_queue;
 
     // Get number of unique characters
     myfile.open("test.txt");
@@ -51,19 +55,51 @@ int main(){
             chars[id].c = curr[j];
         }
     }
-
     sort(chars);
-
+    characters newchars[num_chars];
+    int newcharsCount = 0;
     for (int i = 0; i < 26; i++){
         if (chars[i].count > 0){
-            cout << chars[i].c << ": " << chars[i].count << "  " << endl;
+            newchars[newcharsCount].c = chars[i].c;
+            newchars[newcharsCount].count = chars[i].count;
+            newcharsCount++;
         }
     }
+
     
 
-    Node *z = new Node(chars[0].count + chars[1].count, 'z', (new Node(chars[0].count, chars[0].c, NULL, NULL)), (new Node(chars[1].count, chars[1].c, NULL, NULL)));
+    for (int i = 0; i < 26; i++){
+        if (newchars[i].count > 0){
+            cout << newchars[i].c << ": " << newchars[i].count << "  " << endl;
+        }
+    }
+    node = new Node(new DataClass(newchars[0].count,newchars[0].c));
+    node_queue.push_back(node);
+    curr_root = newchars[0].count;
 
-    cout << "z: " << z << endl;
+    for (int i = 1; i < num_chars; i++){
+        //Node *z = new Node(chars[0].count + chars[1].count, 'z', (new Node(chars[0].count, chars[0].c, NULL, NULL)), (new Node(chars[1].count, chars[1].c, NULL, NULL)));
+        node = new Node(new DataClass(newchars[i].count,newchars[i].c));
+        node_queue.push_back(node);
+        curr_root = curr_root + newchars[i].count;
+        node = new Node(new DataClass(curr_root,'-'));
+        node_queue.push_back(node);
+    }
+    while(!node_queue.empty()){
+        Node *left = node_queue.front();
+        node_queue.pop_front();
+        Node *right = node_queue.front();
+        node_queue.pop_front();
+        node = new Node(NULL,left,right);
+        if(!node_queue.empty()){
+            node_queue.push_front(node);
+        }
+    }
+    root = node;
+
+
+    cout << "root: " << root << endl;
+    
 
     //Tree myTree = Tree(lines, chars);
     //myTree.printLines();
