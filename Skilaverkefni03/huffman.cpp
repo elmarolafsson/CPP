@@ -19,7 +19,8 @@ int getUniqueChars(vector<string> s);
 
 void sort(characters ch[]);
 
-void write(map<char, string> codes, vector<string> lines, string filename);
+void writeToEncoder(map<char, string> codes, vector<string> lines, string filename);
+void writeToDecoder(map<string, string> codes, vector<string> lines, string filename);
 
 string getNextWord(string command);
 string getFirstWord(string command);
@@ -144,7 +145,7 @@ int main(int argc, char *argv[]){
             cout << x.first << " : " << x.second << endl;
         }
 
-        write(codes, lines, argv[3]);
+        writeToEncoder(codes, lines, argv[3]);
     }
     else if (arg == "-d"){
         map<string, string> codes;
@@ -162,12 +163,8 @@ int main(int argc, char *argv[]){
             }
         }
 
-        for (const auto& x : codes) {
-            cout << x.first << " " << x.second << endl;
-        }
-        for(int i = 0; i < lines.size(); i++){
-            cout << lines.at(i) << endl;
-        }
+        writeToDecoder(codes, lines, argv[3]);
+    
     }
                 
 
@@ -203,7 +200,7 @@ void sort(characters ch[]){
     }
 }
 
-void write(map<char, string> codes, vector<string> lines, string filename){
+void writeToEncoder(map<char, string> codes, vector<string> lines, string filename){
     ofstream file;
     file.open (filename);
     for (const auto& x : codes) {
@@ -220,6 +217,28 @@ void write(map<char, string> codes, vector<string> lines, string filename){
                 
             }
             
+        }
+        file << "\n";
+    }
+    file.close();
+}
+
+void writeToDecoder(map<string, string> codes, vector<string> lines, string filename){
+    ofstream file;
+    file.open (filename);
+    for (int i = 0; i<lines.size(); i++){
+        string curr;
+        for (char const &c: lines.at(i)){
+            curr+=c;
+            for (const auto& x : codes){
+                if (curr == x.second){
+                    file << x.first;
+                    curr.clear();
+                }
+                else{
+                    curr[i+1] = c;
+                }
+            }
         }
         file << "\n";
     }
