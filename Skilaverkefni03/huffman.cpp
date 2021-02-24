@@ -173,9 +173,9 @@ void write(map<char, string> codes, vector<string> lines){
     ofstream file;
     file.open ("encoded.txt");
     for (const auto& x : codes) {
-        file << x.first << " " << x.second << endl;
+        file << x.first << " " << x.second << "\n";
     }
-    file << "\\" << endl;
+    file << "\\" << "\n";
     file << endl;
     for (int j = 0; j<lines.size();j++){
         for (char const &c: lines.at(j)) {
@@ -183,8 +183,11 @@ void write(map<char, string> codes, vector<string> lines){
                 if (c == x.first){
                     file << x.second;
                 }
+                
             }
+            
         }  
+        file << "\n";
     }
     file.close();
 }
