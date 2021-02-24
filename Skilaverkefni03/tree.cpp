@@ -3,7 +3,9 @@
 #include <string>
 #include "chars.h"
 #include "tree.h"
+
 using namespace std;
+
 DataClass::DataClass(int count, char c){
     this->count = count;
     this->c = c;

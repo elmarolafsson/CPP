@@ -5,7 +5,6 @@
 #include <vector>
 #include <deque>
 #include <algorithm>
-//#include "chars.h"
 #include "tree.h"
 
 using namespace std;
@@ -224,7 +223,7 @@ void writeToDecoder(map<string, string> codes, vector<string> lines, string file
                     curr.clear();
                 }
                 else{
-                    curr[i+1] = c;
+                    curr[i+1] + c;
                 }
             }
         }
