@@ -25,9 +25,10 @@ int main(){
     characters chars[26] = {0};
     vector<string> lines;
     int curr_root = 0;
-    Node *root = NULL;
+    Node *tree = NULL;
     Node *node = NULL;
     deque<Node *> node_queue;
+    vector<Node *> parents;
 
     // Get number of unique characters
     myfile.open("test.txt");
@@ -86,19 +87,44 @@ int main(){
         node_queue.push_back(node);
     }
     while(!node_queue.empty()){
-        Node *left = node_queue.front();
-        node_queue.pop_front();
-        Node *right = node_queue.front();
-        node_queue.pop_front();
-        node = new Node(NULL,left,right);
-        if(!node_queue.empty()){
-            node_queue.push_front(node);
+        Node *myNode = new Node();
+        
+        if (node_queue.back()->data->c == '-'){
+            cout << "im stuck" << endl;
+            myNode = node_queue.back();
+            for (int i = 0; i < 2; i++){
+                node_queue.pop_back();
+                myNode->children.push_back(node_queue.back());
+            }
+        }
+        
+        else{
+            node_queue.pop_back();
+        }
+        parents.push_back(myNode);
+
+    }
+
+    for (int i = 0; i < parents.size(); i++){
+        cout << parents.at(i) << " is parent of " << parents.at(i)->children.at(0) << " with value: " << parents.at(i)->children.at(0)->value << " and " << parents.at(i)->children.at(1) << " with value " << parents.at(i)->children.at(1)->value  << endl;
+        if(parents.at(i)->children.at(0)->data->count > parents.at(i)->children.at(1)->data->count){
+            parents.at(i)->children.at(0)->value = 1;
+            parents.at(i)->children.at(1)->value = 0;
+        }
+        else{
+            parents.at(i)->children.at(1)->value = 1;
+            parents.at(i)->children.at(0)->value = 0;
         }
     }
-    root = node;
 
+    // tree = node;
 
-    cout << "root: " << root << endl;
+    // cout << "tree: " << endl;
+    // tree->root = node_queue.back();
+    // node_queue.pop_back();
+    // tree->root->children.push_back(node_queue.back());
+    // cout << "root: " << tree->root << endl;
+    // cout << "child of root: " << tree->root->children[]9;
     
 
     //Tree myTree = Tree(lines, chars);

@@ -19,6 +19,10 @@ public:
     DataClass *data;
     Node *left;
     Node *right;
+    Node *root;
+    Node *parent;
+    vector<Node *> children;
+    int value;
 
 private:
     
