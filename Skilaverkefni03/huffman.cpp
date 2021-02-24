@@ -4,6 +4,7 @@
 #include <map>
 #include <vector>
 #include <deque>
+#include<bits/stdc++.h>
 //#include "chars.h"
 #include "tree.h"
 
@@ -17,6 +18,8 @@ struct characters{
 int getUniqueChars(vector<string> s);
 
 void sort(characters ch[]);
+
+void write(map<char, string> codes, vector<string> lines);
 
 // string reverseStr(string str); 
 
@@ -38,8 +41,7 @@ int main(){
     int num_chars;
     string line;
     
-
-    while (getline(myfile, line)){ // Issue it here.
+    while (getline(myfile, line)){ 
         lines.push_back(line);
     }
 
@@ -59,6 +61,7 @@ int main(){
             chars[id].c = curr[j];
         }
     }
+
     sort(chars);
     characters newchars[num_chars];
     int newcharsCount = 0;
@@ -70,8 +73,6 @@ int main(){
         }
     }
 
-    
-
     for (int i = 0; i < num_chars; i++){
         if (newchars[i].count > 0){
             cout << newchars[i].c << ": " << newchars[i].count << "  " << endl;
@@ -82,7 +83,6 @@ int main(){
     curr_root = newchars[0].count;
 
     for (int i = 1; i < num_chars; i++){
-        //Node *z = new Node(chars[0].count + chars[1].count, 'z', (new Node(chars[0].count, chars[0].c, NULL, NULL)), (new Node(chars[1].count, chars[1].c, NULL, NULL)));
         node = new Node(new DataClass(newchars[i].count,newchars[i].c));
         node_queue.push_back(node);
         curr_root = curr_root + newchars[i].count;
@@ -117,8 +117,8 @@ int main(){
             parents.at(i)->children.at(1)->value.append("1"+parents.at(i)->value);
             parents.at(i)->children.at(0)->value.append("0"+parents.at(i)->value);
         }
-        //cout << parents.at(i) << " is parent of " << parents.at(i)->children.at(0) << " with value: " << reverseStr(parents.at(i)->children.at(0)->value) << " and " << parents.at(i)->children.at(1) << " with value " << reverseStr(parents.at(i)->children.at(1)->value)  << endl;
     }    
+
     for (int i = 0; i < num_chars; i++){
         for (int j = 0; j < parents.size()-1; j++){
             if (newchars[i].c == parents.at(j)->children.at(0)->data->c){
@@ -131,21 +131,12 @@ int main(){
             }
         }
     }
+
     for (const auto& x : codes) {
         cout << x.first << " : " << x.second << endl;
     }
-    // tree = node;
 
-    // cout << "tree: " << endl;
-    // tree->root = node_queue.back();
-    // node_queue.pop_back();
-    // tree->root->children.push_back(node_queue.back());
-    // cout << "root: " << tree->root << endl;
-    // cout << "child of root: " << tree->root->children[]9;
-    
-
-    //Tree myTree = Tree(lines, chars);
-    //myTree.printLines();
+    write(codes, lines);
     return 0;
 }
 
@@ -158,15 +149,6 @@ int getUniqueChars(vector<string> s){
     }
     return m.size();
 }
-
-
-// string reverseStr(string str) 
-// { 
-//     int n = str.length();
-//     for (int i = 0; i < n / 2; i++) 
-//         swap(str[i], str[n - i - 1]); 
-//     return str;
-// } 
   
 
 void sort(characters ch[]){
@@ -185,4 +167,24 @@ void sort(characters ch[]){
             }
         }
     }
+}
+
+void write(map<char, string> codes, vector<string> lines){
+    ofstream file;
+    file.open ("encoded.txt");
+    for (const auto& x : codes) {
+        file << x.first << " " << x.second << endl;
+    }
+    file << "\\" << endl;
+    file << endl;
+    for (int j = 0; j<lines.size();j++){
+        for (char const &c: lines.at(j)) {
+            for (const auto& x : codes) {
+                if (c == x.first){
+                    file << x.second;
+                }
+            }
+        }  
+    }
+    file.close();
 }

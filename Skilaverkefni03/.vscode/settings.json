@@ -3,6 +3,11 @@
         "vector": "cpp",
         "iostream": "cpp",
         "*.tcc": "cpp",
-        "iosfwd": "cpp"
+        "iosfwd": "cpp",
+        "utility": "cpp",
+        "deque": "cpp",
+        "map": "cpp",
+        "xstring": "cpp",
+        "ostream": "cpp"
     }
 }
