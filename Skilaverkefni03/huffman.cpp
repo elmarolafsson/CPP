@@ -41,7 +41,7 @@ int main(int argc, char *argv[]){
     string line;
 
     string arg = argv[1];
-    if (arg == "-e"){
+    if (arg == "-e"){ 
         map<char, string> codes;
         myfile.open(argv[2]);
         int num_chars;
@@ -111,25 +111,22 @@ int main(int argc, char *argv[]){
         }
 
         for (int i = 0; i < parents.size()-1; i++){
-            
             if(parents.at(i)->children.at(0)->data->count > parents.at(i)->children.at(1)->data->count){
-                parents.at(i)->children.at(1)->value.append("0"+parents.at(i)->value);
-                parents.at(i)->children.at(0)->value.append("1"+parents.at(i)->value);
+                parents.at(i)->children.at(1)->value.append(parents.at(i)->value+'0');
+                parents.at(i)->children.at(0)->value.append(parents.at(i)->value+'1');
             }
             else{
-                parents.at(i)->children.at(1)->value.append("1"+parents.at(i)->value);
-                parents.at(i)->children.at(0)->value.append("0"+parents.at(i)->value);
+                parents.at(i)->children.at(1)->value.append(parents.at(i)->value+'1');
+                parents.at(i)->children.at(0)->value.append(parents.at(i)->value+'0');
             }
         }    
 
         for (int i = 0; i < num_chars; i++){
             for (int j = 0; j < parents.size()-1; j++){
                 if (newchars[i].c == parents.at(j)->children.at(0)->data->c){
-                    reverse(parents.at(j)->children.at(0)->value.begin(),parents.at(j)->children.at(0)->value.end());
                     codes[newchars[i].c] = parents.at(j)->children.at(0)->value;
                 }
                 else if (newchars[i].c == parents.at(j)->children.at(1)->data->c){
-                    reverse(parents.at(j)->children.at(1)->value.begin(),parents.at(j)->children.at(1)->value.end());
                     codes[newchars[i].c] = parents.at(j)->children.at(1)->value;
                 }
             }

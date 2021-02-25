@@ -6,4 +6,4 @@ clear:
 	clear
 
 run:
-	./huffman.exe -d new.txt res.txt
+	./huffman.exe -e  test.txt res.txt
