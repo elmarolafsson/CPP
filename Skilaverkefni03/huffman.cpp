@@ -30,7 +30,7 @@ int main(int argc, char *argv[]){
     char c;
     string some_string;
     ifstream myfile;
-    characters chars[26] = {0};
+    characters chars[128] = {0};
     vector<string> lines;
     int curr_root = 0;
     Node *tree = NULL;
@@ -56,21 +56,24 @@ int main(int argc, char *argv[]){
         // Get number of unique characters
 
         num_chars = getUniqueChars(lines);
-
+        int idd= 0;
         // Get count of each character into a struct
         for (int i = 0; i < lines.size(); i++){
             string curr = lines.at(i);
             for (int j = 0; j < curr.length(); j++){
-                const int id = curr[j] - 'a';
-                ++chars[id].count;
-                chars[id].c = curr[j];
+                idd = curr[j];
+                ++chars[idd].count;
+                chars[idd].c = curr[j];
+                idd++;
+
+                
             }
         }
 
         sort(chars);
         characters newchars[num_chars];
         int newcharsCount = 0;
-        for (int i = 0; i < 26; i++){
+        for (int i = 0; i < 128; i++){
             if (chars[i].count > 0){
                 newchars[newcharsCount].c = chars[i].c;
                 newchars[newcharsCount].count = chars[i].count;
@@ -171,8 +174,8 @@ int getUniqueChars(vector<string> s){
 
 void sort(characters ch[]){
     characters temp;
-    for (int i = 0; i < 26; i++){
-       for (int j = i+1; j<26; j++){
+    for (int i = 0; i < 128; i++){
+       for (int j = i+1; j<128; j++){
             if (ch[j].count != 0){
                 if (ch[j].count < ch[i].count){
                     temp.c = ch[i].c;
