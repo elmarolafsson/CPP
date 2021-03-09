@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <array>
 using namespace std;
 
 class Being {
@@ -101,7 +102,12 @@ private:
     int traumatism;
 };
 
+void create_species(string name, int health, int strength, int intelligence, bool natural, int disquiet);
+void create_role();
 void show_menu();
+
+template <typename T>
+vector<T>;
 
 int main() {
     vector<Being *> beings;
@@ -139,7 +145,6 @@ int main() {
             {
             case PERSON:
                 cout << "Creating a person" << endl;
-                
                 cout << "Enter Name: ";
                 cin >> name;
                 cout << "Enter Gender: ";
@@ -184,3 +189,8 @@ void show_menu(){
     cout << "2. Display characters"<< endl;
     cout << "3. Quit" << endl;
 }
+
+void create_species(string name, int health, int strength, int intelligence, bool natural, int disquiet){
+    species.push_back([name, health, strength, intelligence, natural, disquiet]);
+
+}   
