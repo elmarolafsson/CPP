@@ -2,6 +2,8 @@
 #include <string>
 #include <vector>
 #include <array>
+#include <random>
+#include <chrono>
 using namespace std;
 
 class Being {
@@ -134,25 +136,56 @@ public:
     }
 
 };
+class Role{
+public:
+    string name;
+    int health;
+    int strength;
+    int intelligence;
+    int fear;
+    int terror;
+
+    Role(){
+
+    }
+    Role(string name, int health, int strength, int intelligence){
+        this->name = name;
+        this->health = health;
+        this->strength = strength;
+        this->intelligence = intelligence;
+        this->fear = fear;
+        this->terror = terror;
+    }
+    virtual void print_information(){
+        cout << "Person" << endl;
+        cout << "Species: " << name << endl;
+        cout << "Health: " << health << endl;
+        cout << "Strength: " << strength << endl;
+        cout << "Intelligence: " << intelligence << endl;
+    }
+
+};
 
 
-
-void create_role();
+void create_role(vector<Role *> roles, vector<string> rolenames);
 void show_menu();
 
 
 
 int main() {
+    srand(std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()));
+
     vector<Species *> species;
+    vector<Role *> roles;
     vector<Being *> beings;
     int selection;
     int choice = 0;
+    vector<string> rolenames;
     bool quit = false;
     enum Main {
         CREATE = 1,
-        SPECIES = 2,
-        DISPLAY = 3,
-        QUIT = 4
+        DISPLAY = 2,
+        QUIT = 3
     };
     enum Choice {
         PERSON = 1, 
@@ -170,6 +203,7 @@ int main() {
         switch (selection)
         {
         case CREATE:
+            system("clear");
             cout << "1. Person" << endl;
             cout << "2. Investigator" << endl;
             cout << "3. Creature" << endl;
@@ -179,7 +213,12 @@ int main() {
             switch (choice)
             {
             case PERSON:
-                cout << "Creating a person" << endl;
+                system("clear");
+                if(rolenames.size() == 0)
+                {
+                    create_role(roles,rolenames);
+                }
+                cout << "Create person" << endl;
                 cout << "Enter Name: ";
                 cin >> name;
                 cout << "Enter Gender: ";
@@ -195,13 +234,13 @@ int main() {
             case ELDRITCH:
                 cout << "creating an eldritch horror" << endl;
                 break;
+            case BACK:
+                show_menu();
+                break;
 
             default:
                 break;
-            }
-        case SPECIES:
-
-            break;    
+            } 
         case QUIT:
             quit = 1;
             break;
@@ -212,7 +251,6 @@ int main() {
         }
 
     }
-    
     beings.push_back(new Person(4, 3, 2, "female", 10));
     beings.push_back(new Eldritch(8, 4, 6, 9));
     beings.push_back(new Investigator(5, 7, 4, "male", 7, 2));
@@ -228,12 +266,45 @@ int main() {
         b->print_information();
         cout << endl;
     }
+    roles.push_back(new Role("Pianost", 6,4,9));
+    for (Role *b : roles){
+        b->print_information();
+        cout << endl;
+    }
 }
 
 void show_menu(){
-    cout << "1. Create new character" << endl;
-    cout << "2. Create new Species/Role" << endl;
-    cout << "3. Display characters"<< endl;
-    cout << "4. Quit" << endl;
+    system("clear");
+    cout << "1. Create new Character" << endl;
+    cout << "2. Display Characters"<< endl;
+    cout << "3. Quit" << endl;
 }
-  
+void create_role(vector<Role *> roles, vector<string> rolenames){
+    string name;
+    int minHealth= 0;
+    int maxHealth= 0;
+    int minStrength= 0;
+    int maxStrength= 0;
+    int minIntelligence = 0;
+    int maxIntelligence= 0;
+
+    cout << "create new role" << endl;
+    cout << "name: ";
+    cin >> name;
+    cout << "\nMininum health: ";
+    cin >> minHealth;
+    cout << "\nMaximum health: ";
+    cin >> maxHealth;
+    cout << "\nMininum Strength: ";
+    cin >> minStrength;
+    cout << "\nMaximum Strength: ";
+    cin >> maxStrength;
+    cout << "\nMininum Intelligence: ";
+    cin >> minIntelligence;
+    cout << "\nMaximum Intelligence: ";
+    cin >> maxIntelligence;
+
+    roles.push_back(new Role(name, rand() % (maxHealth - minHealth+1) + minHealth, rand() %(maxStrength - minStrength+1)+minStrength, rand() % (maxIntelligence - minIntelligence+1)+minIntelligence));
+    rolenames.push_back(name);
+    cout << "Created role " << name << endl;
+}
