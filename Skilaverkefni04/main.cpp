@@ -171,7 +171,7 @@ public:
     }
     virtual void print_information(){
         cout << "Person" << endl;
-        cout << "Species: " << name << endl;
+        cout << "Role: " << name << endl;
         cout << "Health: " << health << endl;
         cout << "Strength: " << strength << endl;
         cout << "Intelligence: " << intelligence << endl;
