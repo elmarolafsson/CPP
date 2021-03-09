@@ -256,17 +256,20 @@ int main() {
                     create_species(species,speciesnames);
                 }
 
-                cout << "Select species: " << endl;
+                cout << "Select species" << endl;
+                cout << "Input " << speciesnames.size() + 1 << " to create new species: " << endl;
                 view_species(speciesnames);
                 int pickSpecies;
                 cin >> pickSpecies;
-                cout << "Create new " << speciesnames.at(pickSpecies-1) << endl;
-               
-                species.at(pickSpecies-1)->count++;
-                
-                name = speciesnames.at(pickSpecies-1) + " " + to_string(species.at(pickSpecies-1)->count);
-                // Creature(string name, int health, int strength, int intelligence, bool natural, int disquiet)
-                beings.push_back(new Creature(name, speciesnames.at(pickSpecies-1), species.at(pickSpecies-1)->health, species.at(pickSpecies-1)->strength,species.at(pickSpecies-1)->intelligence,species.at(pickSpecies-1)->natural,species.at(pickSpecies-1)->disquiet));
+                if (pickSpecies == speciesnames.size() + 1){
+                    create_species(species, speciesnames);
+                }
+                else{
+                    cout << "Create new " << speciesnames.at(pickSpecies-1) << endl;+
+                    species.at(pickSpecies-1)->count++;
+                    name = speciesnames.at(pickSpecies-1) + " " + to_string(species.at(pickSpecies-1)->count);
+                    beings.push_back(new Creature(name, speciesnames.at(pickSpecies-1), species.at(pickSpecies-1)->health, species.at(pickSpecies-1)->strength,species.at(pickSpecies-1)->intelligence,species.at(pickSpecies-1)->natural,species.at(pickSpecies-1)->disquiet));
+                }
                 break;
             case INVESTIGATOR:
                 cout << "creating an investigator" << endl;
