@@ -33,12 +33,16 @@ public:
     Person() : Being(){
         
     }
-    Person(int health, int strength, int intelligence, string gender, int fear) : Being(health,strength,intelligence){
+    Person(string name, string role, string gender, int health, int strength, int intelligence, int fear) : Being(health,strength,intelligence){
         this->gender = gender;
         this->fear = fear;
+        this->name = name;
+        this->role = role;
     }
     virtual void print_information(){
         cout << "Person" << endl;
+        cout << "name: " << name << endl;
+        cout << "role: " << role << endl;
         cout << "Health: " << health << endl;
         cout << "Strength: " << strength << endl;
         cout << "Intelligence: " << intelligence << endl;
@@ -47,6 +51,8 @@ public:
     }
 protected:
     string gender;
+    string name;
+    string role;
     int fear;
 };
 class Investigator : public Person{
@@ -54,8 +60,8 @@ public:
     Investigator(): Person(){
 
     }
-    Investigator(int health, int strength, int intelligence, string gender, int fear, int terror) 
-        : Person(health, strength, intelligence, gender, fear){
+    Investigator(string name, string role, string gender, int health, int strength, int intelligence, int fear, int terror) 
+        : Person(name, role, gender, health, strength, intelligence, fear){
             this->terror = terror;
     }
     virtual void print_information(){
@@ -167,7 +173,8 @@ public:
 };
 
 
-void create_role(vector<Role *> roles, vector<string> rolenames);
+void create_role(vector<Role *> &roles, vector<string> &rolenames);
+void view_roles(vector<string> rolenames);
 void show_menu();
 
 
@@ -218,12 +225,22 @@ int main() {
                 {
                     create_role(roles,rolenames);
                 }
-                cout << "Create person" << endl;
+                else{
+                    cout << "Select Role: " << endl;
+                    view_roles(rolenames);
+                }
+                cout << "Select Role: " << endl;
+                view_roles(rolenames);
+                int pickRole;
+                cin >> pickRole;
+                cout << "Create person with role: " << rolenames.at(pickRole-1) << endl;
                 cout << "Enter Name: ";
                 cin >> name;
                 cout << "Enter Gender: ";
                 cin >> gender;
-                cout << name << " " << gender << endl;
+                // Person(name, role, gender, health, strength, intelligence, fear)
+                beings.push_back(new Person(name, rolenames.at(pickRole-1), gender, roles.at(pickRole-1)->health, roles.at(pickRole-1)->strength, roles.at(pickRole-1)->intelligence, 0));
+                
                 break;
             case CREATURE:
                 cout << "creating a creature" << endl;
@@ -251,10 +268,6 @@ int main() {
         }
 
     }
-    beings.push_back(new Person(4, 3, 2, "female", 10));
-    beings.push_back(new Eldritch(8, 4, 6, 9));
-    beings.push_back(new Investigator(5, 7, 4, "male", 7, 2));
-    beings.push_back(new Creature(5, 9, 4, 1, 10));
 
     for (Being *b : beings){
         b->print_information();
@@ -279,7 +292,7 @@ void show_menu(){
     cout << "2. Display Characters"<< endl;
     cout << "3. Quit" << endl;
 }
-void create_role(vector<Role *> roles, vector<string> rolenames){
+void create_role(vector<Role *> &roles, vector<string> &rolenames){
     string name;
     int minHealth= 0;
     int maxHealth= 0;
@@ -307,4 +320,10 @@ void create_role(vector<Role *> roles, vector<string> rolenames){
     roles.push_back(new Role(name, rand() % (maxHealth - minHealth+1) + minHealth, rand() %(maxStrength - minStrength+1)+minStrength, rand() % (maxIntelligence - minIntelligence+1)+minIntelligence));
     rolenames.push_back(name);
     cout << "Created role " << name << endl;
+}
+
+void view_roles(vector<string> rolenames){
+    for(int i = 0; i < rolenames.size(); i++){
+        cout << i+1 << ". " << rolenames.at(i) << endl;
+    };
 }
