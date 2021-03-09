@@ -66,7 +66,7 @@ private:
 
 class Creature : public Being {
 public:
-
+    
     Creature() : Being(){
         
     }
@@ -102,22 +102,57 @@ private:
     int traumatism;
 };
 
-void create_species(string name, int health, int strength, int intelligence, bool natural, int disquiet);
+
+class Species{
+public:
+    string name;
+    int health;
+    int strength;
+    int intelligence;
+    bool natural;
+    int disquiet;
+
+    Species(){
+
+    }
+    Species(string name, int health, int strength, int intelligence, bool natural, int disquiet){
+        this->name = name;
+        this->health = health;
+        this->strength = strength;
+        this->intelligence = intelligence;
+        this->natural = natural;
+        this->disquiet = disquiet;
+    }
+    virtual void print_information(){
+        cout << "Creature" << endl;
+        cout << "Species: " << name << endl;
+        cout << "Health: " << health << endl;
+        cout << "Strength: " << strength << endl;
+        cout << "Intelligence: " << intelligence << endl;
+        cout << "Natural: " << natural << endl;
+        cout << "Disquiet: " << disquiet << endl;
+    }
+
+};
+
+
+
 void create_role();
 void show_menu();
 
-template <typename T>
-vector<T>;
+
 
 int main() {
+    vector<Species *> species;
     vector<Being *> beings;
     int selection;
     int choice = 0;
     bool quit = false;
     enum Main {
         CREATE = 1,
-        DISPLAY = 2,
-        QUIT = 3
+        SPECIES = 2,
+        DISPLAY = 3,
+        QUIT = 4
     };
     enum Choice {
         PERSON = 1, 
@@ -164,8 +199,13 @@ int main() {
             default:
                 break;
             }
-            
-            
+        case SPECIES:
+
+            break;    
+        case QUIT:
+            quit = 1;
+            break;
+
         
         default:
             break;
@@ -182,15 +222,18 @@ int main() {
         b->print_information();
         cout << endl;
     }
+    species.push_back(new Species("Elmar",6,3,6,1,9));
+    species.push_back(new Species("Ugla",6,3,6,1,9));
+    for (Species *b : species){
+        b->print_information();
+        cout << endl;
+    }
 }
 
 void show_menu(){
     cout << "1. Create new character" << endl;
-    cout << "2. Display characters"<< endl;
-    cout << "3. Quit" << endl;
+    cout << "2. Create new Species/Role" << endl;
+    cout << "3. Display characters"<< endl;
+    cout << "4. Quit" << endl;
 }
-
-void create_species(string name, int health, int strength, int intelligence, bool natural, int disquiet){
-    species.push_back([name, health, strength, intelligence, natural, disquiet]);
-
-}   
+  
