@@ -237,17 +237,25 @@ int main() {
                     create_role(roles,rolenames);
                 }
 
+                cout << "Input " << rolenames.size() + 1 << " to create new Role: " << endl;
                 cout << "Select Role: " << endl;
                 view_roles(rolenames);
                 int pickRole;
                 cin >> pickRole;
-                cout << "Create person with role: " << rolenames.at(pickRole-1) << endl;
-                cout << "Enter Name: ";
-                cin >> name;
-                cout << "Enter Gender: ";
-                cin >> gender;
-                // Person(name, role, gender, health, strength, intelligence, fear)
-                beings.push_back(new Person(name, rolenames.at(pickRole-1), gender, roles.at(pickRole-1)->health, roles.at(pickRole-1)->strength, roles.at(pickRole-1)->intelligence, 0));
+                
+                if (pickRole == rolenames.size() + 1){
+                    create_role(roles, rolenames);
+                }
+                else{
+
+                    cout << "Create person with role: " << rolenames.at(pickRole-1) << endl;
+                    cout << "Enter Name: ";
+                    cin >> name;
+                    cout << "Enter Gender: ";
+                    cin >> gender;
+                    // Person(name, role, gender, health, strength, intelligence, fear)
+                    beings.push_back(new Person(name, rolenames.at(pickRole-1), gender, roles.at(pickRole-1)->health, roles.at(pickRole-1)->strength, roles.at(pickRole-1)->intelligence, 0));
+                }
                 break;
             case CREATURE:
                 system("clear");
@@ -265,7 +273,7 @@ int main() {
                     create_species(species, speciesnames);
                 }
                 else{
-                    cout << "Create new " << speciesnames.at(pickSpecies-1) << endl;+
+                    cout << "Create new " << speciesnames.at(pickSpecies-1) << endl;
                     species.at(pickSpecies-1)->count++;
                     name = speciesnames.at(pickSpecies-1) + " " + to_string(species.at(pickSpecies-1)->count);
                     beings.push_back(new Creature(name, speciesnames.at(pickSpecies-1), species.at(pickSpecies-1)->health, species.at(pickSpecies-1)->strength,species.at(pickSpecies-1)->intelligence,species.at(pickSpecies-1)->natural,species.at(pickSpecies-1)->disquiet));
