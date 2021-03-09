@@ -40,7 +40,7 @@ public:
         this->role = role;
     }
     virtual void print_information(){
-        cout << "Person" << endl;
+        cout << "\nPerson" << endl;
         cout << "name: " << name << endl;
         cout << "role: " << role << endl;
         cout << "Health: " << health << endl;
@@ -77,12 +77,16 @@ public:
     Creature() : Being(){
         
     }
-    Creature(int health, int strength, int intelligence, bool natural, int disquiet) : Being(health,strength,intelligence){
+    Creature(string name, string species, int health, int strength, int intelligence, bool natural, int disquiet) : Being(health,strength,intelligence){
         this->natural = natural;
         this->disquiet = disquiet;
+        this->name = name;
+        this->species = species;
     }
     virtual void print_information(){
-        cout << "Creature" << endl;
+        cout << "\nCreature" << endl;
+        cout << "Name: " << name << endl;
+        cout << "Species: " << species << endl;
         cout << "Health: " << health << endl;
         cout << "Strength: " << strength << endl;
         cout << "Intelligence: " << intelligence << endl;
@@ -90,15 +94,18 @@ public:
         cout << "Disquiet: " << disquiet << endl;
     }
 protected:
+    string name;
+    string species;
     bool natural;
     int disquiet;
+
 };
 class Eldritch : public Creature{
 public: 
     Eldritch() : Creature(){
 
     }
-    Eldritch(int health, int strength, int intelligence, int traumatism) : Creature(health, strength, intelligence, 1, 10){
+    Eldritch(string name,string species, int health, int strength, int intelligence, int traumatism) : Creature(name,species, health, strength, intelligence, 1, 10){
         this->traumatism = traumatism;
     }
     virtual void print_information(){
@@ -176,6 +183,7 @@ public:
 void create_role(vector<Role *> &roles, vector<string> &rolenames);
 void create_species(vector<Species *> &species, vector<string> &speciesnames);
 void view_roles(vector<string> rolenames);
+void view_species(vector<string> speciesnames);
 void show_menu();
 
 
@@ -246,7 +254,24 @@ int main() {
                 
                 break;
             case CREATURE:
-                cout << "creating a creature" << endl;
+                system("clear");
+                if(speciesnames.size() == 0)
+                {
+                    create_species(species,speciesnames);
+                }
+                else{
+                    cout << "Select species: " << endl;
+                    view_species(speciesnames);
+                }
+                cout << "Select species: " << endl;
+                view_species(speciesnames);
+                int pickSpecies;
+                cin >> pickSpecies;
+                cout << "Create new " << speciesnames.at(pickRole-1) << endl;
+                species.at(pickRole-1)->count++;
+                name = speciesnames.at(pickRole-1) + " " + to_string(species.at(pickRole-1)->count);
+                // Creature(string name, int health, int strength, int intelligence, bool natural, int disquiet)
+                beings.push_back(new Creature(name, speciesnames.at(pickSpecies-1), species.at(pickSpecies-1)->health, species.at(pickSpecies-1)->strength,species.at(pickSpecies-1)->intelligence,species.at(pickSpecies-1)->natural,species.at(pickSpecies-1)->disquiet));
                 break;
             case INVESTIGATOR:
                 cout << "creating an investigator" << endl;
@@ -359,4 +384,9 @@ void create_species(vector<Species *> &species, vector<string> &speciesnames){
     species.push_back(new Species(name, health, strength, intelligence, natural, disquiet));
     speciesnames.push_back(name);
     cout << "Created Species: " << name << endl;
+}
+void view_species(vector<string> speciesnames){
+    for(int i = 0; i < speciesnames.size(); i++){
+        cout << i+1 << ". " << speciesnames.at(i) << endl;
+    };
 }
