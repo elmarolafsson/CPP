@@ -260,9 +260,11 @@ int main() {
                 view_species(speciesnames);
                 int pickSpecies;
                 cin >> pickSpecies;
-                cout << "Create new " << speciesnames.at(pickRole-1) << endl;
-                species.at(pickRole-1)->count++;
-                name = speciesnames.at(pickRole-1) + " " + to_string(species.at(pickRole-1)->count);
+                cout << "Create new " << speciesnames.at(pickSpecies-1) << endl;
+               
+                species.at(pickSpecies-1)->count++;
+                
+                name = speciesnames.at(pickSpecies-1) + " " + to_string(species.at(pickSpecies-1)->count);
                 // Creature(string name, int health, int strength, int intelligence, bool natural, int disquiet)
                 beings.push_back(new Creature(name, speciesnames.at(pickSpecies-1), species.at(pickSpecies-1)->health, species.at(pickSpecies-1)->strength,species.at(pickSpecies-1)->intelligence,species.at(pickSpecies-1)->natural,species.at(pickSpecies-1)->disquiet));
                 break;
@@ -365,7 +367,7 @@ void create_species(vector<Species *> &species, vector<string> &speciesnames){
 
     int disquiet;
 
-    cout << "create new role" << endl;
+    cout << "create new species" << endl;
     cout << "name: ";
     cin >> name;
     cout << "\nHealth: ";
