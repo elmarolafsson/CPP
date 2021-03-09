@@ -74,7 +74,6 @@ private:
 
 class Creature : public Being {
 public:
-    
     Creature() : Being(){
         
     }
@@ -119,9 +118,10 @@ public:
     int intelligence;
     bool natural;
     int disquiet;
+    int count;
 
     Species(){
-
+        this->count = 0;
     }
     Species(string name, int health, int strength, int intelligence, bool natural, int disquiet){
         this->name = name;
@@ -174,6 +174,7 @@ public:
 
 
 void create_role(vector<Role *> &roles, vector<string> &rolenames);
+void create_species(vector<Species *> &species, vector<string> &speciesnames);
 void view_roles(vector<string> rolenames);
 void show_menu();
 
@@ -185,9 +186,11 @@ int main() {
     vector<Species *> species;
     vector<Role *> roles;
     vector<Being *> beings;
+    vector<string> rolenames;
+    vector<string> speciesnames;
     int selection;
     int choice = 0;
-    vector<string> rolenames;
+    
     bool quit = false;
     enum Main {
         CREATE = 1,
@@ -326,4 +329,34 @@ void view_roles(vector<string> rolenames){
     for(int i = 0; i < rolenames.size(); i++){
         cout << i+1 << ". " << rolenames.at(i) << endl;
     };
+}
+void create_species(vector<Species *> &species, vector<string> &speciesnames){
+    string name;
+    int health= 0;
+
+    int strength= 0;
+
+    int intelligence = 0;
+
+    bool natural;
+
+    int disquiet;
+
+    cout << "create new role" << endl;
+    cout << "name: ";
+    cin >> name;
+    cout << "\nHealth: ";
+    cin >> health;
+    cout << "\nStrength: ";
+    cin >> strength;
+    cout << "\nIntelligence: ";
+    cin >> intelligence;
+    cout << "\nNatural: "; 
+    cin >> natural;
+    cout << "\nDisquiet: ";
+    cin >> disquiet;
+       // Species(string name, int health, int strength, int intelligence, bool natural, int disquiet)
+    species.push_back(new Species(name, health, strength, intelligence, natural, disquiet));
+    speciesnames.push_back(name);
+    cout << "Created Species: " << name << endl;
 }
