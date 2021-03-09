@@ -214,7 +214,7 @@ int main() {
     };
     string name;
     string gender;
-    while (!quit)
+    while (quit == 0)
     {
         show_menu();
         cin >> selection;
@@ -236,10 +236,7 @@ int main() {
                 {
                     create_role(roles,rolenames);
                 }
-                else{
-                    cout << "Select Role: " << endl;
-                    view_roles(rolenames);
-                }
+
                 cout << "Select Role: " << endl;
                 view_roles(rolenames);
                 int pickRole;
@@ -251,7 +248,6 @@ int main() {
                 cin >> gender;
                 // Person(name, role, gender, health, strength, intelligence, fear)
                 beings.push_back(new Person(name, rolenames.at(pickRole-1), gender, roles.at(pickRole-1)->health, roles.at(pickRole-1)->strength, roles.at(pickRole-1)->intelligence, 0));
-                
                 break;
             case CREATURE:
                 system("clear");
@@ -259,10 +255,7 @@ int main() {
                 {
                     create_species(species,speciesnames);
                 }
-                else{
-                    cout << "Select species: " << endl;
-                    view_species(speciesnames);
-                }
+
                 cout << "Select species: " << endl;
                 view_species(speciesnames);
                 int pickSpecies;
@@ -286,6 +279,24 @@ int main() {
             default:
                 break;
             } 
+        case DISPLAY:
+            system("clear");
+            cout << "--------------" << "\nBeings\n" << "--------------" << endl;
+            for (Being *b : beings){
+                b->print_information();
+                cout << endl;
+            }
+            cout << "--------------" << "\nRoles\n" << "--------------" << endl;
+            for (Role *b : roles){
+                b->print_information();
+                cout << endl;
+            }
+            cout << "--------------" << "\nSpecies\n" << "--------------" << endl;
+            for (Species *b : species){
+                b->print_information();
+                cout << endl;
+            }
+            break;
         case QUIT:
             quit = 1;
             break;
@@ -297,25 +308,12 @@ int main() {
 
     }
 
-    for (Being *b : beings){
-        b->print_information();
-        cout << endl;
-    }
-    species.push_back(new Species("Elmar",6,3,6,1,9));
-    species.push_back(new Species("Ugla",6,3,6,1,9));
-    for (Species *b : species){
-        b->print_information();
-        cout << endl;
-    }
-    roles.push_back(new Role("Pianost", 6,4,9));
-    for (Role *b : roles){
-        b->print_information();
-        cout << endl;
-    }
+
+    
 }
 
 void show_menu(){
-    system("clear");
+    
     cout << "1. Create new Character" << endl;
     cout << "2. Display Characters"<< endl;
     cout << "3. Quit" << endl;
