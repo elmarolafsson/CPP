@@ -10,19 +10,21 @@ using namespace std;
 class Being {
 
 public:
-    
+    string name;
     Being(){
         health = 0;
         strength = 0;
         intelligence = 0;
     }
-    Being(int health, int strength, int intelligence){
+    Being(string name, int health, int strength, int intelligence){
+        this->name = name;
         this->health = health;
         this->strength = strength;
         this->intelligence = intelligence;
     };
     virtual void print_information() = 0;
 protected:
+    
     int health;
     int strength;
     int intelligence;
@@ -34,7 +36,7 @@ public:
     Person() : Being(){
         
     }
-    Person(string name, string role, string gender, int health, int strength, int intelligence, int fear) : Being(health,strength,intelligence){
+    Person(string name, string role, string gender, int health, int strength, int intelligence, int fear) : Being(name, health,strength,intelligence){
         this->gender = gender;
         this->fear = fear;
         this->name = name;
@@ -66,7 +68,7 @@ public:
             this->terror = terror;
     }
     virtual void print_information(){
-        cout << "\Investigator" << endl;
+        cout << "\nInvestigator" << endl;
         cout << "name: " << name << endl;
         cout << "role: " << role << endl;
         cout << "Health: " << health << endl;
@@ -84,7 +86,7 @@ public:
     Creature() : Being(){
         
     }
-    Creature(string name, string species, int health, int strength, int intelligence, bool natural, int disquiet) : Being(health,strength,intelligence){
+    Creature(string name, string species, int health, int strength, int intelligence, bool natural, int disquiet) : Being(name, health,strength,intelligence){
         this->natural = natural;
         this->disquiet = disquiet;
         this->name = name;
@@ -226,7 +228,8 @@ void view_roles(vector<string> rolenames);
 void view_species(vector<string> speciesnames);
 void show_menu();
 void read_data(vector<Role *> &roles, vector<Species *> &species, vector<string> &rolenames, vector<string> &speciesnames);
-
+void view_beings(vector<Being *> beings);
+void deleteRole(vector<Role *> &roles, int at);
 
 int main() {
     srand(std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()));
@@ -238,6 +241,7 @@ int main() {
     vector<string> speciesnames;
     int selection;
     int choice = 0;
+    int displayChoice = 0;
     bool back = false;
     bool quit = false;
     enum Main {
@@ -252,6 +256,13 @@ int main() {
         ELDRITCH = 4,
         BACK = 5
     };
+    enum DisplayChoice {
+        ROLES = 1,
+        SPECIES = 2,
+        INDIVIDUALS = 3,
+        dBACK = 4
+    };
+
     string name;
     string gender;
     
@@ -286,6 +297,7 @@ int main() {
                     
                     cout << "Select Role: " << endl;
                     view_roles(rolenames);
+                    cout << rolenames.size() + 1  << ". to create new Role: " << endl;
                     int pickRole;
                     cin >> pickRole;
                     
@@ -322,6 +334,7 @@ int main() {
                     cout << "Select species" << endl;
                     
                     view_species(speciesnames);
+                    cout << speciesnames.size() + 1 << ". " << "Create new species" << endl;
                     int pickSpecies;
                     cin >> pickSpecies;
                     if (pickSpecies == speciesnames.size() + 1){
@@ -346,6 +359,7 @@ int main() {
                     }
                     cout << "Select Role: " << endl;
                     view_roles(rolenames);
+                    cout << rolenames.size() + 1  << ". to create new Role: " << endl;
                     int pickInv;
                     cin >> pickInv;
                     
@@ -383,6 +397,7 @@ int main() {
                     cout << "Select species" << endl;
                     
                     view_species(speciesnames);
+                    cout << speciesnames.size() + 1 << ". " << "Create new species" << endl;
                     int pickEld;
                     cin >> pickEld;
                     if (pickEld == speciesnames.size() + 1){
@@ -412,20 +427,45 @@ int main() {
             break;
         case DISPLAY:
             system("clear");
-            cout << "--------------" << "\nBeings\n" << "--------------" << endl;
-            for (Being *b : beings){
-                b->print_information();
-                cout << endl;
-            }
-            cout << "--------------" << "\nRoles\n" << "--------------" << endl;
-            for (Role *b : roles){
-                b->print_information();
-                cout << endl;
-            }
-            cout << "--------------" << "\nSpecies\n" << "--------------" << endl;
-            for (Species *b : species){
-                b->print_information();
-                cout << endl;
+            cout << "1. Roles" << endl;
+            cout << "2. Species" << endl;
+            cout << "3. Individuals" << endl;
+            cout << "4. Back" << endl;
+            cin >> displayChoice;
+            switch (displayChoice){
+                case ROLES:
+                    system("clear");
+                    int roleViewChoice;
+                    int delChoice;
+                    view_roles(rolenames);
+                    cin >> roleViewChoice;
+                    system("clear");
+                    roles.at(roleViewChoice-1)->print_information();
+                    cout << "1. Delete 2.Back" << endl;
+                    cin >> delChoice;
+                    if (delChoice == 1){
+                        delete roles.at(roleViewChoice-1);
+                        rolenames.erase(rolenames.begin() +  roleViewChoice-1);
+                        deleteRole(roles, roleViewChoice);
+                        read_data(roles, species, rolenames, speciesnames);
+                        system("clear");
+                    }
+                    else{
+                        break;
+                    }
+                    break;
+                case SPECIES:
+                    system("clear");
+                    view_species(speciesnames);
+                    break;
+                case INDIVIDUALS:
+                    system("clear");
+                    view_beings(beings);
+                    break;
+                case dBACK:
+                    break;
+                default:
+                break;
             }
             break;
         case QUIT:
@@ -486,8 +526,15 @@ void view_roles(vector<string> rolenames){
     for(int i = 0; i < rolenames.size(); i++){
         cout << i+1 << ". " << rolenames.at(i) << endl;
     };
-    cout << rolenames.size() + 1  << ". to create new Role: " << endl;
 }
+
+void view_beings(vector<Being *> beings){
+    for(int i = 0; i<beings.size(); i++){
+        cout << i+1 << ". " << beings.at(i)->name << endl;
+    }
+};
+
+
 void create_species(vector<Species *> &species, vector<string> &speciesnames, bool isEldrich){
     string name;
     int health= 0;
@@ -538,11 +585,15 @@ void view_species(vector<string> speciesnames){
     for(int i = 0; i < speciesnames.size(); i++){
         cout << i+1 << ". " << speciesnames.at(i) << endl;
     };
-    cout << speciesnames.size() + 1 << ". " << "Create new species" << endl;
+    
 }
 
 void read_data(vector<Role *> &roles, vector<Species *> &species, vector<string> &rolenames, vector<string> &speciesnames){
     string line;
+    roles.clear();
+    rolenames.clear();
+    species.clear();
+    speciesnames.clear();
     ifstream roleData("resources/roles.txt");
     char split = ' ';
     vector<string> rolewords;
@@ -572,3 +623,14 @@ void read_data(vector<Role *> &roles, vector<Species *> &species, vector<string>
         }
     }
 }
+
+void deleteRole(vector<Role *> &roles, int at){
+    ofstream rolesData("resources/roles.txt");
+    if (rolesData.is_open()){
+        for (int i = 0; i<roles.size(); i++){
+            if (roles.at(i)->name != roles.at(at-1)->name){
+                rolesData << "Person " << roles.at(i)->name << " " << roles.at(i)->minH << " " << roles.at(i)->maxH << " " << roles.at(i)->minS << " " << roles.at(i)->maxS << " "  << roles.at(i)->minI << " " << roles.at(i)->maxI << " " << "\n";
+            }
+        }
+    }
+};
