@@ -230,6 +230,7 @@ void show_menu();
 void read_data(vector<Role *> &roles, vector<Species *> &species, vector<string> &rolenames, vector<string> &speciesnames);
 void view_beings(vector<Being *> beings);
 void deleteRole(vector<Role *> &roles, int at);
+void deleteSpecie(vector<Species *> &species, int at);
 
 int main() {
     srand(std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()));
@@ -436,18 +437,20 @@ int main() {
                 case ROLES:
                     system("clear");
                     int roleViewChoice;
-                    int delChoice;
+                    int roleDelChoice;
                     view_roles(rolenames);
                     cin >> roleViewChoice;
                     system("clear");
                     roles.at(roleViewChoice-1)->print_information();
                     cout << "1. Delete 2.Back" << endl;
-                    cin >> delChoice;
-                    if (delChoice == 1){
-                        delete roles.at(roleViewChoice-1);
+                    cout << "Enter your choice: ";
+                    cin >> roleDelChoice;
+                    if (roleDelChoice == 1){
+                        
                         rolenames.erase(rolenames.begin() +  roleViewChoice-1);
                         deleteRole(roles, roleViewChoice);
                         read_data(roles, species, rolenames, speciesnames);
+                        delete roles.at(roleViewChoice-1);
                         system("clear");
                     }
                     else{
@@ -457,6 +460,25 @@ int main() {
                 case SPECIES:
                     system("clear");
                     view_species(speciesnames);
+                    int specieViewChoice;
+                    int specieDelChoice;
+                    cin >> specieViewChoice;
+                    system("clear");
+                    species.at(specieViewChoice-1)->print_information();
+                    cout << "1. Delete 2.Back" << endl;
+                    cout << "Enter your choice: ";
+                    cin >> specieDelChoice;
+                    if (specieDelChoice == 1){
+                        
+                        speciesnames.erase(speciesnames.begin() +  specieViewChoice-1);
+                        deleteSpecie(species, specieViewChoice);
+                        read_data(roles, species, rolenames, speciesnames);
+                        delete species.at(specieViewChoice-1);
+                        system("clear");
+                    }
+                    else{
+                        break;
+                    }
                     break;
                 case INDIVIDUALS:
                     system("clear");
@@ -629,8 +651,30 @@ void deleteRole(vector<Role *> &roles, int at){
     if (rolesData.is_open()){
         for (int i = 0; i<roles.size(); i++){
             if (roles.at(i)->name != roles.at(at-1)->name){
-                rolesData << "Person " << roles.at(i)->name << " " << roles.at(i)->minH << " " << roles.at(i)->maxH << " " << roles.at(i)->minS << " " << roles.at(i)->maxS << " "  << roles.at(i)->minI << " " << roles.at(i)->maxI << " " << "\n";
+                rolesData << "Person " << roles.at(i)->name << " " << roles.at(i)->minH << " " << roles.at(i)->maxH << " " << roles.at(i)->minS << " " << roles.at(i)->maxS << " "  << roles.at(i)->minI << " " << roles.at(i)->maxI << " ";
+                if (i != roles.size()-1){
+                    rolesData << "\n";
+                }
+                
             }
         }
+        rolesData.close();
     }
+    
 };
+
+void deleteSpecie(vector<Species *> &species, int at){
+    ofstream speciesData("resources/species.txt");
+    if (speciesData.is_open()){
+        for(int i = 0; i<species.size(); i++){
+            if (species.at(i)->name != species.at(at-1)->name){
+                speciesData << species.at(i)->type << " " << species.at(i)->name << " " << species.at(i)->health << " " << species.at(i)->strength << " " << species.at(i)->intelligence << " " << species.at(i)->natural << " "  << species.at(i)->disquiet << " " << species.at(i)->traumatism << " ";
+                if (i != species.size()-1){
+                    speciesData << "\n";
+                }
+            }
+        }
+        speciesData.close();
+    }
+    
+}
