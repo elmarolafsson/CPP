@@ -446,7 +446,6 @@ int main() {
                     cout << "Enter your choice: ";
                     cin >> roleDelChoice;
                     if (roleDelChoice == 1){
-                        
                         rolenames.erase(rolenames.begin() +  roleViewChoice-1);
                         deleteRole(roles, roleViewChoice);
                         read_data(roles, species, rolenames, speciesnames);
@@ -500,9 +499,6 @@ int main() {
         }
 
     }
-
-
-    
 }
 
 void show_menu(){
@@ -612,6 +608,12 @@ void view_species(vector<string> speciesnames){
 
 void read_data(vector<Role *> &roles, vector<Species *> &species, vector<string> &rolenames, vector<string> &speciesnames){
     string line;
+    for (int i = 0; i<roles.size(); i++){
+        delete roles.at(i);
+    }
+    for (int i = 0; i<species.size(); i++){
+        delete species.at(i);
+    }
     roles.clear();
     rolenames.clear();
     species.clear();
@@ -669,9 +671,6 @@ void deleteSpecie(vector<Species *> &species, int at){
         for(int i = 0; i<species.size(); i++){
             if (species.at(i)->name != species.at(at-1)->name){
                 speciesData << species.at(i)->type << " " << species.at(i)->name << " " << species.at(i)->health << " " << species.at(i)->strength << " " << species.at(i)->intelligence << " " << species.at(i)->natural << " "  << species.at(i)->disquiet << " " << species.at(i)->traumatism << " ";
-                if (i != species.size()-1){
-                    speciesData << "\n";
-                }
             }
         }
         speciesData.close();
