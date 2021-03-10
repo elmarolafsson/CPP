@@ -192,7 +192,7 @@ public:
         cout << "Role: " << name << endl;
         cout << "Health: " << minH << "-" << maxH << endl;
         cout << "Strength: " << minS << "-" << maxS << endl;
-        cout << "Intelligence: " << minI << "'" << maxI << endl;
+        cout << "Intelligence: " << minI << "-" << maxI << endl;
     }
 
 };
@@ -216,7 +216,7 @@ int main() {
     vector<string> speciesnames;
     int selection;
     int choice = 0;
-    
+    bool back = false;
     bool quit = false;
     enum Main {
         CREATE = 1,
@@ -246,80 +246,81 @@ int main() {
             cout << "4. Eldritch horror" << endl;
             cout << "5. Go back" << endl;
             cin >> choice;
-            switch (choice)
-            {
-            case PERSON:
-                system("clear");
-                if(rolenames.size() == 0)
-                {
-                    create_role(roles,rolenames);
-                }
+            while(back == 0){
 
-                
-                cout << "Select Role: " << endl;
-                view_roles(rolenames);
-                int pickRole;
-                cin >> pickRole;
-                
-                if (pickRole == rolenames.size() + 1){
-                    create_role(roles, rolenames);
+            
+                switch (choice)
+                {
+                case PERSON:
+                    system("clear");
+                    if(rolenames.size() == 0)
+                    {
+                        create_role(roles,rolenames);
+                    }
+
+                    
                     cout << "Select Role: " << endl;
                     view_roles(rolenames);
-                    
+                    int pickRole;
                     cin >> pickRole;
-                }
-                
-                cout << "Create person with role: " << rolenames.at(pickRole-1) << endl;
-                cout << "Enter Name: ";
-                cin >> name;
-                cout << "Enter Gender: ";
-                cin >> gender;
-                //Person(name, role, gender, health, strength, intelligence, fear)
-                beings.push_back(new Person(name, rolenames.at(pickRole-1), gender,
-                    rand() % (roles.at(pickRole)->maxH - roles.at(pickRole)->minH+1) + roles.at(pickRole)->minH, 
-                    rand() % (roles.at(pickRole)->maxS - roles.at(pickRole)->minS+1) + roles.at(pickRole)->minS,
-                    rand() % (roles.at(pickRole)->maxI - roles.at(pickRole)->minI+1) + roles.at(pickRole)->minI,
-                    rand() % (3 - 0+1) + 0));
-                
-                break;
-            case CREATURE:
-                system("clear");
-                if(speciesnames.size() == 0)
-                {
-                    create_species(species,speciesnames, false);
-                }
+                    
+                    if (pickRole == rolenames.size() + 1){
+                        create_role(roles, rolenames);
+                    }
+                    else {
+                        cout << "Create person with role: " << rolenames.at(pickRole-1) << endl;
+                        cout << "Enter Name: ";
+                        cin >> name;
+                        cout << "Enter Gender: ";
+                        cin >> gender;
+                    
+                    
+                    //Person(name, role, gender, health, strength, intelligence, fear)
+                        beings.push_back(new Person(name, rolenames.at(pickRole-1), gender,
+                            rand() % (roles.at(pickRole-1)->maxH - roles.at(pickRole-1)->minH+1) + roles.at(pickRole-1)->minH, 
+                            rand() % (roles.at(pickRole-1)->maxS - roles.at(pickRole-1)->minS+1) + roles.at(pickRole-1)->minS,
+                            rand() % (roles.at(pickRole-1)->maxI - roles.at(pickRole-1)->minI+1) + roles.at(pickRole-1)->minI,
+                            rand() % (3 - 0+1) + 0));
+                        back = 1;
+                    }
+                    break;
+                case CREATURE:
+                    system("clear");
+                    if(speciesnames.size() == 0)
+                    {
+                        create_species(species,speciesnames, false);
+                    }
 
-                cout << "Select species" << endl;
-                
-                view_species(speciesnames);
-                int pickSpecies;
-                cin >> pickSpecies;
-                if (pickSpecies == speciesnames.size() + 1){
-                    create_species(species, speciesnames, false);
                     cout << "Select species" << endl;
                     
                     view_species(speciesnames);
+                    int pickSpecies;
                     cin >> pickSpecies;
-                }
-                
-                cout << "Create new " << speciesnames.at(pickSpecies-1) << endl;
-                species.at(pickSpecies-1)->count++;
-                name = speciesnames.at(pickSpecies-1) + " " + to_string(species.at(pickSpecies-1)->count);
-                beings.push_back(new Creature(name, speciesnames.at(pickSpecies-1), species.at(pickSpecies-1)->health, species.at(pickSpecies-1)->strength,species.at(pickSpecies-1)->intelligence,species.at(pickSpecies-1)->natural,species.at(pickSpecies-1)->disquiet));
-                break;
-            case INVESTIGATOR:
-                cout << "creating an investigator" << endl;
-                break;
-            case ELDRITCH:
-                cout << "creating an eldritch horror" << endl;
-                break;
-            case BACK:
-                show_menu();
-                break;
+                    if (pickSpecies == speciesnames.size() + 1){
+                        create_species(species, speciesnames, false);
+                    }
+                    else {
+                        cout << "Create new " << speciesnames.at(pickSpecies-1) << endl;
+                        species.at(pickSpecies-1)->count++;
+                        name = speciesnames.at(pickSpecies-1) + " " + to_string(species.at(pickSpecies-1)->count);
+                        beings.push_back(new Creature(name, speciesnames.at(pickSpecies-1), species.at(pickSpecies-1)->health, species.at(pickSpecies-1)->strength,species.at(pickSpecies-1)->intelligence,species.at(pickSpecies-1)->natural,species.at(pickSpecies-1)->disquiet));
+                        back = 1;
+                    }
+                    break;
+                case INVESTIGATOR:
+                    cout << "creating an investigator" << endl;
+                    break;
+                case ELDRITCH:
+                    cout << "creating an eldritch horror" << endl;
+                    break;
+                case BACK:
+                    back = 1;
+                    break;
 
-            default:
-                break;
-            } 
+                default:
+                    break;
+                } 
+            }
         case DISPLAY:
             system("clear");
             cout << "--------------" << "\nBeings\n" << "--------------" << endl;
