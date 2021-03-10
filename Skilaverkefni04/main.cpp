@@ -66,8 +66,14 @@ public:
             this->terror = terror;
     }
     virtual void print_information(){
-        Person::print_information();
-        cout << "Terror: " << terror << endl;
+        cout << "\Investigator" << endl;
+        cout << "name: " << name << endl;
+        cout << "role: " << role << endl;
+        cout << "Health: " << health << endl;
+        cout << "Strength: " << strength << endl;
+        cout << "Intelligence: " << intelligence << endl;
+        cout << "Gender: " << gender << endl;
+        cout << "Fear: " << fear << endl;
     }
 private:
     int terror;
@@ -112,11 +118,18 @@ public:
     Eldritch() : Creature(){
 
     }
-    Eldritch(string name,string species, int health, int strength, int intelligence, int traumatism) : Creature(name,species, health, strength, intelligence, 1, 10){
+    Eldritch(string name,string species, int health, int strength, int intelligence,bool natural, int disquiet, int traumatism) : Creature(name,species, health, strength, intelligence, natural, disquiet){
         this->traumatism = traumatism;
     }
     virtual void print_information(){
-        Creature::print_information();
+        cout << "\nEldritch Horror" << endl;
+        cout << "Name: " << name << endl;
+        cout << "Species: " << species << endl;
+        cout << "Health: " << health << endl;
+        cout << "Strength: " << strength << endl;
+        cout << "Intelligence: " << intelligence << endl;
+        cout << "Unnatural" << endl;
+        cout << "Disquiet: " << disquiet << endl;
         cout << "Traumatism: " << traumatism << endl;
     }
 private:
@@ -134,12 +147,14 @@ public:
     int disquiet;
     int count;
     int traumatism;
+    string type;
 
     Species(){
         this->count = 0;
     }
-    Species(string name, int health, int strength, int intelligence, bool natural, int disquiet, int traumatism){
+    Species(string name, string type, int health, int strength, int intelligence, bool natural, int disquiet, int traumatism){
         this->name = name;
+        this->type = type;
         this->health = health;
         this->strength = strength;
         this->intelligence = intelligence;
@@ -148,13 +163,19 @@ public:
         this->traumatism = traumatism;
     }
     virtual void print_information(){
-        cout << "Creature" << endl;
         cout << "Species: " << name << endl;
+        if (traumatism < 4){
+            cout << "Eldritch Horror" << endl;
+        }
+        else {
+            cout << "Creature" << endl;
+
+        }
         cout << "Health: " << health << endl;
         cout << "Strength: " << strength << endl;
         cout << "Intelligence: " << intelligence << endl;
         if (natural == 0){
-            cout << "Unnatural: " << endl;
+            cout << "Unnatural" << endl;
         }
         else if (natural == 1){
             cout << "Natural" << endl;
@@ -272,6 +293,7 @@ int main() {
                         create_role(roles, rolenames);
                     }
                     else {
+                        system("clear");
                         cout << "Create person with role: " << rolenames.at(pickRole-1) << endl;
                         cout << "Enter Name: ";
                         cin >> name;
@@ -284,7 +306,8 @@ int main() {
                             rand() % (roles.at(pickRole-1)->maxH - roles.at(pickRole-1)->minH+1) + roles.at(pickRole-1)->minH, 
                             rand() % (roles.at(pickRole-1)->maxS - roles.at(pickRole-1)->minS+1) + roles.at(pickRole-1)->minS,
                             rand() % (roles.at(pickRole-1)->maxI - roles.at(pickRole-1)->minI+1) + roles.at(pickRole-1)->minI,
-                            rand() % (3 - 0+1) + 0));
+                            rand() % (10 - 0+1) + 0));
+                            system("clear");
                         back = 1;
                     }
                     break;
@@ -305,19 +328,76 @@ int main() {
                         create_species(species, speciesnames, false);
                     }
                     else {
+                        system("clear");
                         cout << "Create new " << speciesnames.at(pickSpecies-1) << endl;
                         species.at(pickSpecies-1)->count++;
                         name = speciesnames.at(pickSpecies-1) + " " + to_string(species.at(pickSpecies-1)->count);
                         beings.push_back(new Creature(name, speciesnames.at(pickSpecies-1), species.at(pickSpecies-1)->health, species.at(pickSpecies-1)->strength,species.at(pickSpecies-1)->intelligence,species.at(pickSpecies-1)->natural,species.at(pickSpecies-1)->disquiet));
                         back = 1;
+                        system("clear");
                     }
                     break;
                 case INVESTIGATOR:
-                    cout << "creating an investigator" << endl;
+                    back = 0;
+                    system("clear");
+                    if(rolenames.size() == 0)
+                    {
+                        create_role(roles,rolenames);
+                    }
+                    cout << "Select Role: " << endl;
+                    view_roles(rolenames);
+                    int pickInv;
+                    cin >> pickInv;
+                    
+                    if (pickInv == rolenames.size() + 1){
+                        create_role(roles, rolenames);
+                    }
+                    else {
+                        system("clear");
+                        cout << "Create investigator with role: " << rolenames.at(pickInv-1) << endl;
+                        cout << "Enter Name: ";
+                        cin >> name;
+                        cout << "Enter Gender: ";
+                        cin >> gender;
+                    
+                    
+                    //Person(name, role, gender, health, strength, intelligence, fear)
+                        beings.push_back(new Investigator(name, rolenames.at(pickInv-1), gender,
+                            rand() % (roles.at(pickInv-1)->maxH - roles.at(pickInv-1)->minH+1) + roles.at(pickInv-1)->minH, 
+                            rand() % (roles.at(pickInv-1)->maxS - roles.at(pickInv-1)->minS+1) + roles.at(pickInv-1)->minS,
+                            rand() % (roles.at(pickInv-1)->maxI - roles.at(pickInv-1)->minI+1) + roles.at(pickInv-1)->minI,
+                            rand() % (10 - 0+1) + 0, rand() % (3 - 0+1) + 0));
+                        back = 1;
+                        system("clear");
+                    }
+                    
                     back = 1;
                     break;
                 case ELDRITCH:
-                    cout << "creating an eldritch horror" << endl;
+                    system("clear");
+                    if(speciesnames.size() == 0)
+                    {
+                        create_species(species,speciesnames, false);
+                    }
+
+                    cout << "Select species" << endl;
+                    
+                    view_species(speciesnames);
+                    int pickEld;
+                    cin >> pickEld;
+                    if (pickEld == speciesnames.size() + 1){
+                        create_species(species, speciesnames, false);
+                    }
+                    else {
+                        system("clear");
+                        cout << "Create new " << speciesnames.at(pickEld-1) << endl;
+                        species.at(pickEld-1)->count++;
+                        name = speciesnames.at(pickEld-1) + " " + to_string(species.at(pickEld-1)->count);
+                        // Eldritch(string name,string species, int health, int strength, int intelligence,bool natural, int disquiet, int traumatism) 
+                        beings.push_back(new Eldritch(name, speciesnames.at(pickEld-1), species.at(pickEld-1)->health, species.at(pickEld-1)->strength, species.at(pickEld-1)->intelligence, 0, 10, species.at(pickEld-1)->traumatism));
+                        back = 1;
+                        system("clear");
+                    }
                     back = 1;
                     break;
                 case BACK:
@@ -364,7 +444,6 @@ int main() {
 }
 
 void show_menu(){
-    
     cout << "1. Create new Character" << endl;
     cout << "2. Display Characters"<< endl;
     cout << "3. Quit" << endl;
@@ -423,6 +502,8 @@ void create_species(vector<Species *> &species, vector<string> &speciesnames, bo
 
     int traumatism = 4;
 
+    string type;
+
     cout << "create new species" << endl;
     cout << "name: ";
     cin >> name;
@@ -439,13 +520,17 @@ void create_species(vector<Species *> &species, vector<string> &speciesnames, bo
     if (isEldrich == 1){
         cout << "\nTraumatism";
         cin >> traumatism;
+        type = "Eldritch";
+    }
+    else {
+        type = "Creature";
     }
        // Species(string name, int health, int strength, int intelligence, bool natural, int disquiet)
-    species.push_back(new Species(name, health, strength, intelligence, natural, disquiet, traumatism));
+    species.push_back(new Species(name,type, health, strength, intelligence, natural, disquiet, traumatism));
     speciesnames.push_back(name);
     ofstream speciesData("resources/species.txt", ios_base::app);
     speciesData << "\n";
-    speciesData << "Creature " << name << " " << health << " " << strength << " " << intelligence << " " << natural << " "  << disquiet << " " << traumatism << " ";
+    speciesData << type << " " << name << " " << health << " " << strength << " " << intelligence << " " << natural << " "  << disquiet << " " << traumatism << " ";
 
     cout << "Created Species: " << name << endl;
 }
@@ -480,7 +565,7 @@ void read_data(vector<Role *> &roles, vector<Species *> &species, vector<string>
             specieswords.push_back(line);
             if (specieswords.size() == 8){
                 
-                species.push_back(new Species(specieswords.at(1), stoi(specieswords.at(2)), stoi(specieswords.at(3)), stoi(specieswords.at(4)), stoi(specieswords.at(5)), stoi(specieswords.at(6)), stoi(specieswords.at(7))));
+                species.push_back(new Species(specieswords.at(1),specieswords.at(0), stoi(specieswords.at(2)), stoi(specieswords.at(3)), stoi(specieswords.at(4)), stoi(specieswords.at(5)), stoi(specieswords.at(6)), stoi(specieswords.at(7))));
                 speciesnames.push_back(specieswords.at(1));
                 specieswords.clear();
             }
