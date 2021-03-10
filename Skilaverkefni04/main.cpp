@@ -4,6 +4,7 @@
 #include <array>
 #include <random>
 #include <chrono>
+#include <fstream>
 using namespace std;
 
 class Being {
@@ -203,7 +204,7 @@ void create_species(vector<Species *> &species, vector<string> &speciesnames, bo
 void view_roles(vector<string> rolenames);
 void view_species(vector<string> speciesnames);
 void show_menu();
-
+void read_data(vector<Role *> &roles, vector<Species *> &species, vector<string> &rolenames, vector<string> &speciesnames);
 
 
 int main() {
@@ -232,6 +233,8 @@ int main() {
     };
     string name;
     string gender;
+    
+    read_data(roles, species, rolenames, speciesnames);
     while (quit == 0)
     {
         show_menu();
@@ -443,4 +446,36 @@ void view_species(vector<string> speciesnames){
         cout << i+1 << ". " << speciesnames.at(i) << endl;
     };
     cout << speciesnames.size() + 1 << ". " << "Create new species" << endl;
+}
+
+void read_data(vector<Role *> &roles, vector<Species *> &species, vector<string> &rolenames, vector<string> &speciesnames){
+    string line;
+    ifstream roleData("resources/roles.txt");
+    char split = ' ';
+    vector<string> rolewords;
+    if (roleData.is_open()){
+        while ( getline (roleData, line, split) ){
+            rolewords.push_back(line);
+            if (rolewords.size() == 8){
+                roles.push_back(new Role(rolewords.at(1), stoi(rolewords.at(2)),  stoi(rolewords.at(3)), stoi(rolewords.at(4)), stoi(rolewords.at(5)), stoi(rolewords.at(6)), stoi(rolewords.at(7))));
+                rolenames.push_back(rolewords.at(1));
+                rolewords.clear();
+            }
+        }
+        roleData.close();
+    }
+    ifstream speciesData("resources/species.txt");
+    vector<string> specieswords;
+    if (speciesData.is_open()){
+        
+        while ( getline (speciesData, line, split)){
+            specieswords.push_back(line);
+            if (specieswords.size() == 8){
+                
+                species.push_back(new Species(specieswords.at(1), stoi(specieswords.at(2)), stoi(specieswords.at(3)), stoi(specieswords.at(4)), stoi(specieswords.at(5)), stoi(specieswords.at(6)), stoi(specieswords.at(7))));
+                speciesnames.push_back(specieswords.at(1));
+                specieswords.clear();
+            }
+        }
+    }
 }
