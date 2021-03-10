@@ -255,7 +255,7 @@ int main() {
                     create_role(roles,rolenames);
                 }
 
-                cout << "Input " << rolenames.size() + 1 << " to create new Role: " << endl;
+                
                 cout << "Select Role: " << endl;
                 view_roles(rolenames);
                 int pickRole;
@@ -263,20 +263,24 @@ int main() {
                 
                 if (pickRole == rolenames.size() + 1){
                     create_role(roles, rolenames);
+                    cout << "Select Role: " << endl;
+                    view_roles(rolenames);
+                    
+                    cin >> pickRole;
                 }
-                else{
-                    cout << "Create person with role: " << rolenames.at(pickRole-1) << endl;
-                    cout << "Enter Name: ";
-                    cin >> name;
-                    cout << "Enter Gender: ";
-                    cin >> gender;
-                    //Person(name, role, gender, health, strength, intelligence, fear)
-                    beings.push_back(new Person(name, rolenames.at(pickRole-1), gender,
-                        rand() % (roles.at(pickRole)->maxH - roles.at(pickRole)->minH+1) + roles.at(pickRole)->minH, 
-                        rand() % (roles.at(pickRole)->maxS - roles.at(pickRole)->minS+1) + roles.at(pickRole)->minS,
-                        rand() % (roles.at(pickRole)->maxI - roles.at(pickRole)->minI+1) + roles.at(pickRole)->minI,
-                        rand() % (3 - 0+1) + 0));
-                }
+                
+                cout << "Create person with role: " << rolenames.at(pickRole-1) << endl;
+                cout << "Enter Name: ";
+                cin >> name;
+                cout << "Enter Gender: ";
+                cin >> gender;
+                //Person(name, role, gender, health, strength, intelligence, fear)
+                beings.push_back(new Person(name, rolenames.at(pickRole-1), gender,
+                    rand() % (roles.at(pickRole)->maxH - roles.at(pickRole)->minH+1) + roles.at(pickRole)->minH, 
+                    rand() % (roles.at(pickRole)->maxS - roles.at(pickRole)->minS+1) + roles.at(pickRole)->minS,
+                    rand() % (roles.at(pickRole)->maxI - roles.at(pickRole)->minI+1) + roles.at(pickRole)->minI,
+                    rand() % (3 - 0+1) + 0));
+                
                 break;
             case CREATURE:
                 system("clear");
@@ -286,19 +290,22 @@ int main() {
                 }
 
                 cout << "Select species" << endl;
-                cout << "Input " << speciesnames.size() + 1 << " to create new species: " << endl;
+                
                 view_species(speciesnames);
                 int pickSpecies;
                 cin >> pickSpecies;
                 if (pickSpecies == speciesnames.size() + 1){
                     create_species(species, speciesnames, false);
+                    cout << "Select species" << endl;
+                    
+                    view_species(speciesnames);
+                    cin >> pickSpecies;
                 }
-                else{
-                    cout << "Create new " << speciesnames.at(pickSpecies-1) << endl;
-                    species.at(pickSpecies-1)->count++;
-                    name = speciesnames.at(pickSpecies-1) + " " + to_string(species.at(pickSpecies-1)->count);
-                    beings.push_back(new Creature(name, speciesnames.at(pickSpecies-1), species.at(pickSpecies-1)->health, species.at(pickSpecies-1)->strength,species.at(pickSpecies-1)->intelligence,species.at(pickSpecies-1)->natural,species.at(pickSpecies-1)->disquiet));
-                }
+                
+                cout << "Create new " << speciesnames.at(pickSpecies-1) << endl;
+                species.at(pickSpecies-1)->count++;
+                name = speciesnames.at(pickSpecies-1) + " " + to_string(species.at(pickSpecies-1)->count);
+                beings.push_back(new Creature(name, speciesnames.at(pickSpecies-1), species.at(pickSpecies-1)->health, species.at(pickSpecies-1)->strength,species.at(pickSpecies-1)->intelligence,species.at(pickSpecies-1)->natural,species.at(pickSpecies-1)->disquiet));
                 break;
             case INVESTIGATOR:
                 cout << "creating an investigator" << endl;
@@ -386,6 +393,7 @@ void view_roles(vector<string> rolenames){
     for(int i = 0; i < rolenames.size(); i++){
         cout << i+1 << ". " << rolenames.at(i) << endl;
     };
+    cout << rolenames.size() + 1  << ". to create new Role: " << endl;
 }
 void create_species(vector<Species *> &species, vector<string> &speciesnames, bool isEldrich){
     string name;
@@ -427,4 +435,5 @@ void view_species(vector<string> speciesnames){
     for(int i = 0; i < speciesnames.size(); i++){
         cout << i+1 << ". " << speciesnames.at(i) << endl;
     };
+    cout << speciesnames.size() + 1 << ". " << "Create new species" << endl;
 }
