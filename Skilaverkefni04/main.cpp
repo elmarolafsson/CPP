@@ -396,6 +396,10 @@ void create_role(vector<Role *> &roles, vector<string> &rolenames){
 
     roles.push_back(new Role(name, minHealth, maxHealth, minStrength, maxStrength, minIntelligence, maxIntelligence));
     rolenames.push_back(name);
+    ofstream roleData("resources/roles.txt", ios_base::app);
+    roleData << "\n";
+    roleData << "Person " << name << " " << minHealth << " " << maxHealth << " " << minStrength << " " << maxStrength << " "  << minIntelligence << " " << maxIntelligence << " ";
+
     cout << "Created role " << name << endl;
 }
 
@@ -439,6 +443,10 @@ void create_species(vector<Species *> &species, vector<string> &speciesnames, bo
        // Species(string name, int health, int strength, int intelligence, bool natural, int disquiet)
     species.push_back(new Species(name, health, strength, intelligence, natural, disquiet, traumatism));
     speciesnames.push_back(name);
+    ofstream speciesData("resources/species.txt", ios_base::app);
+    speciesData << "\n";
+    speciesData << "Creature " << name << " " << health << " " << strength << " " << intelligence << " " << natural << " "  << disquiet << " " << traumatism << " ";
+
     cout << "Created Species: " << name << endl;
 }
 void view_species(vector<string> speciesnames){
