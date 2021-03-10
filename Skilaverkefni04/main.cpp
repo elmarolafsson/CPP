@@ -246,6 +246,7 @@ int main() {
             cout << "4. Eldritch horror" << endl;
             cout << "5. Go back" << endl;
             cin >> choice;
+            back = 0;
             while(back == 0){
 
             
@@ -285,6 +286,7 @@ int main() {
                     }
                     break;
                 case CREATURE:
+                    back = 0;
                     system("clear");
                     if(speciesnames.size() == 0)
                     {
@@ -309,18 +311,22 @@ int main() {
                     break;
                 case INVESTIGATOR:
                     cout << "creating an investigator" << endl;
+                    back = 1;
                     break;
                 case ELDRITCH:
                     cout << "creating an eldritch horror" << endl;
+                    back = 1;
                     break;
                 case BACK:
                     back = 1;
                     break;
 
                 default:
+                    back = 1;
                     break;
                 } 
             }
+            break;
         case DISPLAY:
             system("clear");
             cout << "--------------" << "\nBeings\n" << "--------------" << endl;
