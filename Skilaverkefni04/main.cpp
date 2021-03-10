@@ -2,9 +2,9 @@
 #include <string>
 #include <vector>
 #include <array>
-#include <random>
-#include <chrono>
 #include <fstream>
+#include <stdlib.h>
+#include <time.h>
 using namespace std;
 
 class Being {
@@ -233,7 +233,7 @@ void deleteRole(vector<Role *> &roles, int at);
 void deleteSpecie(vector<Species *> &species, int at);
 
 int main() {
-    srand(std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()));
+    srand(time(NULL));
 
     vector<Species *> species;
     vector<Role *> roles;
@@ -449,7 +449,6 @@ int main() {
                         rolenames.erase(rolenames.begin() +  roleViewChoice-1);
                         deleteRole(roles, roleViewChoice);
                         read_data(roles, species, rolenames, speciesnames);
-                        delete roles.at(roleViewChoice-1);
                         system("clear");
                     }
                     else{
@@ -468,11 +467,9 @@ int main() {
                     cout << "Enter your choice: ";
                     cin >> specieDelChoice;
                     if (specieDelChoice == 1){
-                        
                         speciesnames.erase(speciesnames.begin() +  specieViewChoice-1);
                         deleteSpecie(species, specieViewChoice);
                         read_data(roles, species, rolenames, speciesnames);
-                        delete species.at(specieViewChoice-1);
                         system("clear");
                     }
                     else{
