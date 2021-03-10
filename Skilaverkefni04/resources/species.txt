@@ -1,0 +1,4 @@
+Creature Ghoul 4 4 2 0 6
+Creature Wolf 4 6 5 1 2
+Eldritch Chthonian 8 7 2 0 10
+Eldritch Shaggoth 8 9 6 0 10

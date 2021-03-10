@@ -90,6 +90,12 @@ public:
         cout << "Health: " << health << endl;
         cout << "Strength: " << strength << endl;
         cout << "Intelligence: " << intelligence << endl;
+        if (natural == 1){
+            cout << "Natural" << endl;
+        }
+        else if (natural == 0){
+            cout << "Unnatural" << endl;
+        }
         cout << "Natural: " << natural << endl;
         cout << "Disquiet: " << disquiet << endl;
     }
@@ -126,17 +132,19 @@ public:
     bool natural;
     int disquiet;
     int count;
+    int traumatism;
 
     Species(){
         this->count = 0;
     }
-    Species(string name, int health, int strength, int intelligence, bool natural, int disquiet){
+    Species(string name, int health, int strength, int intelligence, bool natural, int disquiet, int traumatism){
         this->name = name;
         this->health = health;
         this->strength = strength;
         this->intelligence = intelligence;
         this->natural = natural;
         this->disquiet = disquiet;
+        this->traumatism = traumatism;
     }
     virtual void print_information(){
         cout << "Creature" << endl;
@@ -144,44 +152,54 @@ public:
         cout << "Health: " << health << endl;
         cout << "Strength: " << strength << endl;
         cout << "Intelligence: " << intelligence << endl;
-        cout << "Natural: " << natural << endl;
+        if (natural == 0){
+            cout << "Unnatural: " << endl;
+        }
+        else if (natural == 1){
+            cout << "Natural" << endl;
+        }
         cout << "Disquiet: " << disquiet << endl;
+        if (traumatism < 4){
+            cout << "Traumatism: " << traumatism << endl;
+        }
     }
 
 };
 class Role{
 public:
     string name;
-    int health;
-    int strength;
-    int intelligence;
-    int fear;
-    int terror;
+    int minH;
+    int maxH;
+    int minS;
+    int maxS;
+    int minI;
+    int maxI;
 
     Role(){
 
     }
-    Role(string name, int health, int strength, int intelligence){
+    Role(string name, int minH,int maxH, int minS, int maxS, int minI, int maxI){
         this->name = name;
-        this->health = health;
-        this->strength = strength;
-        this->intelligence = intelligence;
-        this->fear = fear;
-        this->terror = terror;
+        this->minH = minH;
+        this->maxH = maxH;
+        this->minS = minS;
+        this->maxS = maxS;
+        this->minI = minI;
+        this->maxI = maxI;
     }
     virtual void print_information(){
         cout << "Person" << endl;
         cout << "Role: " << name << endl;
-        cout << "Health: " << health << endl;
-        cout << "Strength: " << strength << endl;
-        cout << "Intelligence: " << intelligence << endl;
+        cout << "Health: " << minH << "-" << maxH << endl;
+        cout << "Strength: " << minS << "-" << maxS << endl;
+        cout << "Intelligence: " << minI << "'" << maxI << endl;
     }
 
 };
 
 
 void create_role(vector<Role *> &roles, vector<string> &rolenames);
-void create_species(vector<Species *> &species, vector<string> &speciesnames);
+void create_species(vector<Species *> &species, vector<string> &speciesnames, bool isEldrich);
 void view_roles(vector<string> rolenames);
 void view_species(vector<string> speciesnames);
 void show_menu();
@@ -247,21 +265,24 @@ int main() {
                     create_role(roles, rolenames);
                 }
                 else{
-
                     cout << "Create person with role: " << rolenames.at(pickRole-1) << endl;
                     cout << "Enter Name: ";
                     cin >> name;
                     cout << "Enter Gender: ";
                     cin >> gender;
-                    // Person(name, role, gender, health, strength, intelligence, fear)
-                    beings.push_back(new Person(name, rolenames.at(pickRole-1), gender, roles.at(pickRole-1)->health, roles.at(pickRole-1)->strength, roles.at(pickRole-1)->intelligence, 0));
+                    //Person(name, role, gender, health, strength, intelligence, fear)
+                    beings.push_back(new Person(name, rolenames.at(pickRole-1), gender,
+                        rand() % (roles.at(pickRole)->maxH - roles.at(pickRole)->minH+1) + roles.at(pickRole)->minH, 
+                        rand() % (roles.at(pickRole)->maxS - roles.at(pickRole)->minS+1) + roles.at(pickRole)->minS,
+                        rand() % (roles.at(pickRole)->maxI - roles.at(pickRole)->minI+1) + roles.at(pickRole)->minI,
+                        rand() % (3 - 0+1) + 0));
                 }
                 break;
             case CREATURE:
                 system("clear");
                 if(speciesnames.size() == 0)
                 {
-                    create_species(species,speciesnames);
+                    create_species(species,speciesnames, false);
                 }
 
                 cout << "Select species" << endl;
@@ -270,7 +291,7 @@ int main() {
                 int pickSpecies;
                 cin >> pickSpecies;
                 if (pickSpecies == speciesnames.size() + 1){
-                    create_species(species, speciesnames);
+                    create_species(species, speciesnames, false);
                 }
                 else{
                     cout << "Create new " << speciesnames.at(pickSpecies-1) << endl;
@@ -356,7 +377,7 @@ void create_role(vector<Role *> &roles, vector<string> &rolenames){
     cout << "\nMaximum Intelligence: ";
     cin >> maxIntelligence;
 
-    roles.push_back(new Role(name, rand() % (maxHealth - minHealth+1) + minHealth, rand() %(maxStrength - minStrength+1)+minStrength, rand() % (maxIntelligence - minIntelligence+1)+minIntelligence));
+    roles.push_back(new Role(name, minHealth, maxHealth, minStrength, maxStrength, minIntelligence, maxIntelligence));
     rolenames.push_back(name);
     cout << "Created role " << name << endl;
 }
@@ -366,7 +387,7 @@ void view_roles(vector<string> rolenames){
         cout << i+1 << ". " << rolenames.at(i) << endl;
     };
 }
-void create_species(vector<Species *> &species, vector<string> &speciesnames){
+void create_species(vector<Species *> &species, vector<string> &speciesnames, bool isEldrich){
     string name;
     int health= 0;
 
@@ -377,6 +398,8 @@ void create_species(vector<Species *> &species, vector<string> &speciesnames){
     bool natural;
 
     int disquiet;
+
+    int traumatism = 4;
 
     cout << "create new species" << endl;
     cout << "name: ";
@@ -391,8 +414,12 @@ void create_species(vector<Species *> &species, vector<string> &speciesnames){
     cin >> natural;
     cout << "\nDisquiet: ";
     cin >> disquiet;
+    if (isEldrich == 1){
+        cout << "\nTraumatism";
+        cin >> traumatism;
+    }
        // Species(string name, int health, int strength, int intelligence, bool natural, int disquiet)
-    species.push_back(new Species(name, health, strength, intelligence, natural, disquiet));
+    species.push_back(new Species(name, health, strength, intelligence, natural, disquiet, traumatism));
     speciesnames.push_back(name);
     cout << "Created Species: " << name << endl;
 }
