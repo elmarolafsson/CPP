@@ -270,17 +270,19 @@ int main() {
     read_data(roles, species, rolenames, speciesnames);
     while (quit == 0)
     {
+        system("clear");
         show_menu();
         cin >> selection;
         switch (selection)
         {
         case CREATE:
-            system("clear");
+            system("clear");    
             cout << "1. Person" << endl;
             cout << "2. Investigator" << endl;
             cout << "3. Creature" << endl;
             cout << "4. Eldritch horror" << endl;
             cout << "5. Go back" << endl;
+            cout << "Enter your choice: ";
             cin >> choice;
             back = 0;
             while(back == 0){
@@ -299,6 +301,7 @@ int main() {
                     cout << "Select Role: " << endl;
                     view_roles(rolenames);
                     cout << rolenames.size() + 1  << ". to create new Role: " << endl;
+                    cout << "Enter your choice: ";
                     int pickRole;
                     cin >> pickRole;
                     
@@ -336,6 +339,7 @@ int main() {
                     
                     view_species(speciesnames);
                     cout << speciesnames.size() + 1 << ". " << "Create new species" << endl;
+                    cout << "Enter your choice: ";
                     int pickSpecies;
                     cin >> pickSpecies;
                     if (pickSpecies == speciesnames.size() + 1){
@@ -343,12 +347,13 @@ int main() {
                     }
                     else {
                         system("clear");
-                        cout << "Create new " << speciesnames.at(pickSpecies-1) << endl;
+                        cout << "Created new " << speciesnames.at(pickSpecies-1) << endl;
                         species.at(pickSpecies-1)->count++;
                         name = speciesnames.at(pickSpecies-1) + " " + to_string(species.at(pickSpecies-1)->count);
                         beings.push_back(new Creature(name, speciesnames.at(pickSpecies-1), species.at(pickSpecies-1)->health, species.at(pickSpecies-1)->strength,species.at(pickSpecies-1)->intelligence,species.at(pickSpecies-1)->natural,species.at(pickSpecies-1)->disquiet));
+                        system("pause");
                         back = 1;
-                        system("clear");
+                        
                     }
                     break;
                 case INVESTIGATOR:
@@ -361,6 +366,7 @@ int main() {
                     cout << "Select Role: " << endl;
                     view_roles(rolenames);
                     cout << rolenames.size() + 1  << ". to create new Role: " << endl;
+                    cout << "Enter your choice: ";
                     int pickInv;
                     cin >> pickInv;
                     
@@ -399,6 +405,7 @@ int main() {
                     
                     view_species(speciesnames);
                     cout << speciesnames.size() + 1 << ". " << "Create new species" << endl;
+                    cout << "Enter your choice: ";
                     int pickEld;
                     cin >> pickEld;
                     if (pickEld == speciesnames.size() + 1){
@@ -406,13 +413,13 @@ int main() {
                     }
                     else {
                         system("clear");
-                        cout << "Create new " << speciesnames.at(pickEld-1) << endl;
+                        cout << "Created new " << speciesnames.at(pickEld-1) << endl;
                         species.at(pickEld-1)->count++;
                         name = speciesnames.at(pickEld-1) + " " + to_string(species.at(pickEld-1)->count);
                         // Eldritch(string name,string species, int health, int strength, int intelligence,bool natural, int disquiet, int traumatism) 
                         beings.push_back(new Eldritch(name, speciesnames.at(pickEld-1), species.at(pickEld-1)->health, species.at(pickEld-1)->strength, species.at(pickEld-1)->intelligence, 0, 10, species.at(pickEld-1)->traumatism));
+                        system("pause");
                         back = 1;
-                        system("clear");
                     }
                     back = 1;
                     break;
@@ -432,6 +439,7 @@ int main() {
             cout << "2. Species" << endl;
             cout << "3. Individuals" << endl;
             cout << "4. Back" << endl;
+            cout << "Enter your choice: ";
             cin >> displayChoice;
             switch (displayChoice){
                 case ROLES:
@@ -454,6 +462,7 @@ int main() {
                     else{
                         break;
                     }
+                    
                     break;
                 case SPECIES:
                     system("clear");
@@ -478,7 +487,19 @@ int main() {
                     break;
                 case INDIVIDUALS:
                     system("clear");
-                    view_beings(beings);
+                    if (beings.size() > 0){
+                        view_beings(beings);
+                        int individualChoice;
+                        int goBack;
+                        cin >> individualChoice;
+                        system("clear");
+                        beings.at(individualChoice-1)->print_information();
+                        system("pause");
+                    }
+                    else{
+                        cout << "No Individuals exist.." << endl;
+                        system("pause");
+                    }
                     break;
                 case dBACK:
                     break;
@@ -502,6 +523,7 @@ void show_menu(){
     cout << "1. Create new Character" << endl;
     cout << "2. Display Characters"<< endl;
     cout << "3. Quit" << endl;
+    cout << "Enter your choice: ";
 }
 void create_role(vector<Role *> &roles, vector<string> &rolenames){
     string name;
@@ -541,12 +563,14 @@ void view_roles(vector<string> rolenames){
     for(int i = 0; i < rolenames.size(); i++){
         cout << i+1 << ". " << rolenames.at(i) << endl;
     };
+    cout << "Enter your choice: ";
 }
 
 void view_beings(vector<Being *> beings){
     for(int i = 0; i<beings.size(); i++){
         cout << i+1 << ". " << beings.at(i)->name << endl;
     }
+    cout << "Enter your choice: ";
 };
 
 
