@@ -537,19 +537,72 @@ void create_role(vector<Role *> &roles, vector<string> &rolenames){
     cout << "create new role" << endl;
     cout << "name: ";
     cin >> name;
-    cout << "\nMininum health: ";
+    cout << "\nMininum health (1-10) : ";
     cin >> minHealth;
-    cout << "\nMaximum health: ";
+    while ((!cin.eof() && cin.fail()) || (minHealth < 1 || minHealth > 10))
+    {
+        cout << "invalid input!" << endl;
+        cin.clear();
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        cout << "\nMininum health (1-10) : ";
+        cin >> minHealth;
+        
+    }
+    cout << "\nMaximum health (" << minHealth << "-10): ";
     cin >> maxHealth;
-    cout << "\nMininum Strength: ";
+    while ((!cin.eof() && cin.fail()) || (maxHealth < minHealth || maxHealth > 10))
+    {
+        cout << "invalid input!" << endl;
+        cin.clear();
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        cout << "\nMaximum health (" << minHealth << "-10) : ";
+        cin >> maxHealth;
+        
+    }
+    cout << "\nMininum Strength (0-10) : ";
     cin >> minStrength;
-    cout << "\nMaximum Strength: ";
+    while ((!cin.eof() && cin.fail()) || (minStrength < 0 || minStrength > 10))
+    {
+        cout << "invalid input!" << endl;
+        cin.clear();
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        cout << "\nMininum Strength (0-10) : ";
+        cin >> minStrength;
+        
+    }
+    cout << "\nMaximum Strength (" << minStrength << "-10) : ";
     cin >> maxStrength;
-    cout << "\nMininum Intelligence: ";
+    while ((!cin.eof() && cin.fail()) || (maxStrength < minStrength || maxStrength > 10))
+    {
+        cout << "invalid input!" << endl;
+        cin.clear();
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        cout << "\nMaximum Strength (" << minStrength << "-10) : ";
+        cin >> maxStrength;
+        
+    }
+    cout << "\nMininum Intelligence (0-10) : ";
     cin >> minIntelligence;
-    cout << "\nMaximum Intelligence: ";
+    while ((!cin.eof() && cin.fail()) || (minIntelligence < 0 || minIntelligence > 10))
+    {
+        cout << "invalid input!" << endl;
+        cin.clear();
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        cout << "\nMininum Intelligence (0-10) : ";
+        cin >> minIntelligence;
+        
+    }
+    cout << "\nMaximum Intelligence (" << minIntelligence << "-10) : ";
     cin >> maxIntelligence;
-
+    while ((!cin.eof() && cin.fail()) || (maxIntelligence < minIntelligence || maxIntelligence > 10))
+    {
+        cout << "invalid input!" << endl;
+        cin.clear();
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        cout << "\nMaximum Intelligence (" << minIntelligence << "-10) : ";
+        cin >> maxIntelligence;
+        
+    }
     roles.push_back(new Role(name, minHealth, maxHealth, minStrength, maxStrength, minIntelligence, maxIntelligence));
     rolenames.push_back(name);
     ofstream roleData("resources/roles.txt", ios_base::app);
@@ -593,21 +646,76 @@ void create_species(vector<Species *> &species, vector<string> &speciesnames, bo
     cout << "create new species" << endl;
     cout << "name: ";
     cin >> name;
-    cout << "\nHealth: ";
+    cout << "\nHealth (1-10) : ";
     cin >> health;
-    cout << "\nStrength: ";
+    while ((!cin.eof() && cin.fail()) || (health < 1 || health > 10))
+    {
+        cout << "invalid input!" << endl;
+        cin.clear();
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        cout << "\nHealth (1-10) : ";
+        cin >> health;
+        
+    }
+    cout << "\nStrength (0-10) : ";
     cin >> strength;
-    cout << "\nIntelligence: ";
+    while ((!cin.eof() && cin.fail()) || (strength < 0 || strength > 10))
+    {
+        cout << "invalid input!" << endl;
+        cin.clear();
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        cout << "\nStrength (0-10) : ";
+        cin >> strength;
+        
+    }
+    cout << "\nIntelligence (0-10) : ";
     cin >> intelligence;
-    cout << "\nNatural: "; 
+    while ((!cin.eof() && cin.fail()) || (intelligence < 0 || intelligence > 10))
+    {
+        cout << "invalid input!" << endl;
+        cin.clear();
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        cout << "\nIntelligence (0-10) : ";
+        cin >> intelligence;
+        
+    }
+    cout << "\nNatural (0 for Unnatural, 1 for Natural) : "; 
     cin >> natural;
-    cout << "\nDisquiet: ";
+    while ((!cin.eof() && cin.fail()) || (natural < 0 || natural > 1))
+    {
+        cout << "invalid input!" << endl;
+        cin.clear();
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        cout << "\nNatural (0 for Unnatural, 1 for Natural) : "; 
+        cin >> natural;
+        
+    }
+    cout << "\nDisquiet (0-10) : ";
     cin >> disquiet;
+    while ((!cin.eof() && cin.fail()) || (disquiet < 0 || disquiet > 10))
+    {
+        cout << "invalid input!" << endl;
+        cin.clear();
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        cout << "\nDisquiet (0-10) : ";
+        cin >> disquiet;
+        
+    }
     if (isEldrich == 1){
-        cout << "\nTraumatism";
+        cout << "\nTraumatism (0-3) :";
         cin >> traumatism;
+        while ((!cin.eof() && cin.fail()) || (traumatism < 0 || traumatism > 10))
+        {
+            cout << "invalid input!" << endl;
+            cin.clear();
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            cout << "\nTraumatism (0-3) :";
+            cin >> traumatism;
+        
+        }
         type = "Eldritch";
     }
+    
     else {
         type = "Creature";
     }
